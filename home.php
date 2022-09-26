@@ -59,38 +59,6 @@ include "header.php";
                         <a href="staffs.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
-                <div class="col-lg-3 col-xs-6">
-                    <div class="small-box bg-yellow">
-                        <div class="inner">
-                        <h3><?php
-                            $sql = "SELECT * FROM Projects";
-                            $db->sql($sql);
-                            $res = $db->getResult();
-                            $num = $db->numRows($res);
-                            echo $num;
-                             ?></h3>
-                            <p>Projects</p>
-                        </div>
-                        <div class="icon"><i class="fa fa-marker"></i></div>
-                        <a href="projects.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-xs-6">
-                    <div class="small-box bg-green">
-                        <div class="inner">
-                        <h3><?php
-                            $sql = "SELECT * FROM timesheets";
-                            $db->sql($sql);
-                            $res = $db->getResult();
-                            $num = $db->numRows($res);
-                            echo $num;
-                             ?></h3>
-                            <p>Timesheets</p>
-                        </div>
-                        <div class="icon"><i class="fa fa-calendar"></i></div>
-                        <a href="timesheets.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-                    </div>
-                </div>
             </div>
         </section>
     </div>
