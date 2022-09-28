@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 26, 2022 at 01:40 PM
+-- Generation Time: Sep 28, 2022 at 12:18 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 7.4.29
 
@@ -20,6 +20,47 @@ SET time_zone = "+00:00";
 --
 -- Database: `greymatter`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `clients`
+--
+
+CREATE TABLE `clients` (
+  `id` int(11) NOT NULL,
+  `name` text DEFAULT NULL,
+  `mobile` text DEFAULT NULL,
+  `email` text DEFAULT NULL,
+  `address` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `clients`
+--
+
+INSERT INTO `clients` (`id`, `name`, `mobile`, `email`, `address`) VALUES
+(1, 'Akshat', '9854453638', 'example@gmail.com', 'Madurai,Tamilnadu');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `projects`
+--
+
+CREATE TABLE `projects` (
+  `id` int(11) NOT NULL,
+  `name` text DEFAULT NULL,
+  `client_name` text DEFAULT NULL,
+  `description` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `projects`
+--
+
+INSERT INTO `projects` (`id`, `name`, `client_name`, `description`) VALUES
+(1, 'Goldplus', 'Akshat', 'It is the platform used to buy and sell golds through this application');
 
 -- --------------------------------------------------------
 
@@ -44,9 +85,44 @@ CREATE TABLE `staffs` (
 INSERT INTO `staffs` (`id`, `name`, `role`, `email`, `mobile`, `password`, `image`) VALUES
 (1, 'A.Divakar ', 'Fullstack Developer', 'divakarvan03@gmail.com', '7358832695', 'Divakar@003', 'upload/staffs/1664191846.5705.jpg');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `timesheets`
+--
+
+CREATE TABLE `timesheets` (
+  `id` int(11) NOT NULL,
+  `date` date DEFAULT NULL,
+  `staff_id` int(11) DEFAULT NULL,
+  `project_name` text DEFAULT NULL,
+  `description` text DEFAULT NULL,
+  `hours` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `timesheets`
+--
+
+INSERT INTO `timesheets` (`id`, `date`, `staff_id`, `project_name`, `description`, `hours`) VALUES
+(1, '2022-09-29', 1, 'Goldplus', 'Major changes updated in product,category,sub-category sections', 4),
+(2, '2022-09-30', 1, 'Goldplus', 'bug fixed in product page', 1);
+
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `clients`
+--
+ALTER TABLE `clients`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `projects`
+--
+ALTER TABLE `projects`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `staffs`
@@ -55,14 +131,38 @@ ALTER TABLE `staffs`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `timesheets`
+--
+ALTER TABLE `timesheets`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `clients`
+--
+ALTER TABLE `clients`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `projects`
+--
+ALTER TABLE `projects`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `staffs`
 --
 ALTER TABLE `staffs`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `timesheets`
+--
+ALTER TABLE `timesheets`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

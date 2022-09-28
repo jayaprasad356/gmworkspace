@@ -23,12 +23,12 @@
 <?php include "header.php";?>
 <html>
 <head>
-<title>Clients | - Dashboard</title>
+<title>Timesheets | - Dashboard</title>
 </head>
 </body>
       <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
-        <?php include('public/clients-table.php'); ?>
+        <?php include('public/timesheets-table.php'); ?>
       </div><!-- /.content-wrapper -->
   </body>
 </html>

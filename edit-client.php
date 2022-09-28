@@ -24,12 +24,12 @@
 <?php include "header.php";?>
 <html>
 <head>
-<title>Edit Staff | - Dashboard</title>
+<title>Edit Client | - Dashboard</title>
 </head>
 <body>
       <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
-        <?php include('public/edit-staff-form.php'); ?>
+        <?php include('public/edit-client-form.php'); ?>
       </div><!-- /.content-wrapper -->
   </body>
 </html>
