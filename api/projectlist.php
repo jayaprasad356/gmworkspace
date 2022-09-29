@@ -17,9 +17,9 @@ if (empty($_POST['client_id'])) {
     print_r(json_encode($response));
     return false;
 }
-$client_id = $db->escapeString($_POST['client_id']);
+$client_id= $db->escapeString($_POST['client_id']);
 
-$sql = "SELECT *,projects.name AS project_name FROM projects,clients WHERE clients.id=projects.client_id";
+$sql = "SELECT *,projects.name AS project_name FROM projects,clients WHERE clients.name=projects.client_name";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);

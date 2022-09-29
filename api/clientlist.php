@@ -22,7 +22,7 @@ if ($num >= 1) {
         $temp['id'] = $row['id'];
         $temp['name'] = $row['name'];
         $temp['mobile'] = $row['mobile'];
-        $temp['email'] = $row['place'];
+        $temp['email'] = $row['email'];
         $temp['address'] = $row['address'];
         $rows[] = $temp;
         

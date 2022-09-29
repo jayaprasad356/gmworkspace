@@ -27,7 +27,7 @@ if (empty($_POST['password'])) {
 
 $mobile = $db->escapeString($_POST['mobile']);
 $password = $db->escapeString($_POST['password']);
-$sql = "SELECT * FROM users WHERE mobile ='$mobile' AND password='$password'";
+$sql = "SELECT * FROM staffs WHERE mobile ='$mobile' AND password='$password'";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
@@ -40,7 +40,6 @@ if ($num == 1){
 else{
     $response['success'] = false;
     $response['message'] = "Staff Not Found/ Invalid Credentials";
-    $response['data'] = $res;
     print_r(json_encode($response));
 
 }

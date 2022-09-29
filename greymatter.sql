@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 28, 2022 at 12:18 PM
+-- Generation Time: Sep 29, 2022 at 11:11 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 7.4.29
 
@@ -83,7 +83,8 @@ CREATE TABLE `staffs` (
 --
 
 INSERT INTO `staffs` (`id`, `name`, `role`, `email`, `mobile`, `password`, `image`) VALUES
-(1, 'A.Divakar ', 'Fullstack Developer', 'divakarvan03@gmail.com', '7358832695', 'Divakar@003', 'upload/staffs/1664191846.5705.jpg');
+(1, 'A.Divakar ', 'Fullstack Developer', 'divakarvan03@gmail.com', '7358832695', 'Divakar@003', 'upload/staffs/1664191846.5705.jpg'),
+(3, 'Karthick', 'Frontend Developer', 'karthick12@gmail.com', '9884747730', 'karthick@6547', 'upload/staffs/1664440617.81.jpg');
 
 -- --------------------------------------------------------
 
@@ -106,7 +107,8 @@ CREATE TABLE `timesheets` (
 
 INSERT INTO `timesheets` (`id`, `date`, `staff_id`, `project_name`, `description`, `hours`) VALUES
 (1, '2022-09-29', 1, 'Goldplus', 'Major changes updated in product,category,sub-category sections', 4),
-(2, '2022-09-30', 1, 'Goldplus', 'bug fixed in product page', 1);
+(2, '2022-09-30', 1, 'Goldplus', 'bug fixed in product page', 1),
+(4, '2022-09-19', NULL, 'Smartgram', 'just for check', 4);
 
 --
 -- Indexes for dumped tables
@@ -156,13 +158,13 @@ ALTER TABLE `projects`
 -- AUTO_INCREMENT for table `staffs`
 --
 ALTER TABLE `staffs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `timesheets`
 --
 ALTER TABLE `timesheets`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
