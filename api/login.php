@@ -39,7 +39,7 @@ if ($num == 1){
 }
 else{
     $response['success'] = false;
-    $response['message'] = "Staff Not Found/ Invalid Credentials";
+    $response['message'] = "Invalid Credentials";
     print_r(json_encode($response));
 
 }

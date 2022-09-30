@@ -22,8 +22,7 @@ if ($num >= 1) {
         $temp['name'] = $row['name'];
         $temp['role'] = $row['role'];
         $temp['email'] = $row['email'];
-        $temp['mobile'] = $row['mobile'];
-        $temp['image'] = DOMAIN_URL . $row['image'];
+        $temp['status'] = $row['status'];
         $rows[] = $temp;
         
     }

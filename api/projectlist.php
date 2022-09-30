@@ -11,32 +11,14 @@ include_once('../includes/crud.php');
 
 $db = new Database();
 $db->connect();
-if (empty($_POST['client_id'])) {
-    $response['success'] = false;
-    $response['message'] = "Client Id is Empty";
-    print_r(json_encode($response));
-    return false;
-}
-$client_id= $db->escapeString($_POST['client_id']);
-
-$sql = "SELECT *,projects.name AS project_name FROM projects,clients WHERE clients.name=projects.client_name";
+$sql = "SELECT * FROM projects";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
 if ($num >= 1) {
-    $data = array();
-    foreach ($res as $row) {
-        $temp['id'] = $row['id'];
-        $temp['name'] = $row['name'];
-        $temp['project_name'] = $row['project_name'];
-        $temp['description'] = $row['description'];
-        $rows[] = $temp;
-        
-    }
-
     $response['success'] = true;
     $response['message'] = "Projects listed Successfully";
-    $response['data'] = $rows;
+    $response['data'] = $res;
     print_r(json_encode($response));
 
 }else{
