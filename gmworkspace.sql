@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 29, 2022 at 11:11 AM
--- Server version: 10.4.24-MariaDB
--- PHP Version: 7.4.29
+-- Generation Time: Oct 01, 2022 at 06:48 AM
+-- Server version: 10.4.22-MariaDB
+-- PHP Version: 7.4.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `greymatter`
+-- Database: `gmworkspace`
 --
 
 -- --------------------------------------------------------
@@ -51,7 +51,7 @@ INSERT INTO `clients` (`id`, `name`, `mobile`, `email`, `address`) VALUES
 CREATE TABLE `projects` (
   `id` int(11) NOT NULL,
   `name` text DEFAULT NULL,
-  `client_name` text DEFAULT NULL,
+  `client_id` int(11) DEFAULT NULL,
   `description` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -59,8 +59,8 @@ CREATE TABLE `projects` (
 -- Dumping data for table `projects`
 --
 
-INSERT INTO `projects` (`id`, `name`, `client_name`, `description`) VALUES
-(1, 'Goldplus', 'Akshat', 'It is the platform used to buy and sell golds through this application');
+INSERT INTO `projects` (`id`, `name`, `client_id`, `description`) VALUES
+(1, 'Goldplus', 1, 'It is the platform used to buy and sell golds through this application');
 
 -- --------------------------------------------------------
 
@@ -75,16 +75,17 @@ CREATE TABLE `staffs` (
   `email` text DEFAULT NULL,
   `mobile` text DEFAULT NULL,
   `password` text DEFAULT NULL,
-  `image` text DEFAULT NULL
+  `image` text DEFAULT NULL,
+  `status` tinyint(4) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `staffs`
 --
 
-INSERT INTO `staffs` (`id`, `name`, `role`, `email`, `mobile`, `password`, `image`) VALUES
-(1, 'A.Divakar ', 'Fullstack Developer', 'divakarvan03@gmail.com', '7358832695', 'Divakar@003', 'upload/staffs/1664191846.5705.jpg'),
-(3, 'Karthick', 'Frontend Developer', 'karthick12@gmail.com', '9884747730', 'karthick@6547', 'upload/staffs/1664440617.81.jpg');
+INSERT INTO `staffs` (`id`, `name`, `role`, `email`, `mobile`, `password`, `image`, `status`) VALUES
+(1, 'A.Divakar ', 'Fullstack Developer', 'divakarvan03@gmail.com', '7358832695', 'Divakar@003', 'upload/staffs/1664191846.5705.jpg', 1),
+(3, 'Karthick', 'Frontend Developer', 'karthick12@gmail.com', '9884747730', 'karthick@6547', 'upload/staffs/1664440617.81.jpg', 0);
 
 -- --------------------------------------------------------
 
@@ -96,19 +97,18 @@ CREATE TABLE `timesheets` (
   `id` int(11) NOT NULL,
   `date` date DEFAULT NULL,
   `staff_id` int(11) DEFAULT NULL,
-  `project_name` text DEFAULT NULL,
+  `project_id` int(11) DEFAULT NULL,
   `description` text DEFAULT NULL,
-  `hours` int(11) DEFAULT NULL
+  `hours` int(11) DEFAULT NULL,
+  `status` tinyint(4) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `timesheets`
 --
 
-INSERT INTO `timesheets` (`id`, `date`, `staff_id`, `project_name`, `description`, `hours`) VALUES
-(1, '2022-09-29', 1, 'Goldplus', 'Major changes updated in product,category,sub-category sections', 4),
-(2, '2022-09-30', 1, 'Goldplus', 'bug fixed in product page', 1),
-(4, '2022-09-19', NULL, 'Smartgram', 'just for check', 4);
+INSERT INTO `timesheets` (`id`, `date`, `staff_id`, `project_id`, `description`, `hours`, `status`) VALUES
+(8, '2022-09-30', 1, 1, 'vbbb', 4, 0);
 
 --
 -- Indexes for dumped tables
@@ -164,7 +164,7 @@ ALTER TABLE `staffs`
 -- AUTO_INCREMENT for table `timesheets`
 --
 ALTER TABLE `timesheets`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
