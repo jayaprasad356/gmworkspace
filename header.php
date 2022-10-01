@@ -192,6 +192,12 @@ $fn = new custom_functions;
                         <span>Timesheets</span>
                     </a>
                 </li>
+                <li class="treeview">
+                    <a href="app-update.php">
+                        <i class="fa fa-bullseye"></i>
+                        <span>App Update</span>
+                    </a>
+                </li>
               
               
             </ul>
