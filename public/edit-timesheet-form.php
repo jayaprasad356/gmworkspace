@@ -19,6 +19,7 @@ if (isset($_POST['btnEdit'])) {
 	    $error = array();
         $date = $db->escapeString($fn->xss_clean($_POST['date']));
         $name = $db->escapeString($fn->xss_clean($_POST['name']));
+		$status = $db->escapeString($fn->xss_clean($_POST['status']));
 
         if (empty($name)) {
             $error['name'] = " <span class='label label-danger'>Required!</span>";
@@ -29,10 +30,10 @@ if (isset($_POST['btnEdit'])) {
         
         if ( !empty($name) && !empty($date))
         {	
-		    $project_name = $db->escapeString($fn->xss_clean($_POST['project_name']));
+		    $project_id = $db->escapeString($fn->xss_clean($_POST['project_id']));
             $description = $db->escapeString($fn->xss_clean($_POST['description']));
             $hours = $db->escapeString($fn->xss_clean($_POST['hours'])); 
-             $sql_query = "UPDATE timesheets SET date='$date',staff_id='$name',project_name='$project_name',description='$description',hours='$hours' WHERE id =  $ID";
+             $sql_query = "UPDATE timesheets SET date='$date',staff_id='$name',project_id='$project_id',description='$description',hours='$hours',status='$status' WHERE id =$ID";
 			 $db->sql($sql_query);
 			 $res = $db->getResult();
              $update_result = $db->getResult();
@@ -56,7 +57,7 @@ if (isset($_POST['btnEdit'])) {
 // create array variable to store previous data
 $data = array();
 
-$sql_query = "SELECT * FROM timesheets,staffs WHERE timesheets.id =" . $ID;
+$sql_query = "SELECT * FROM timesheets WHERE id=$ID";
 $db->sql($sql_query);
 $res = $db->getResult();
 
@@ -97,7 +98,7 @@ if (isset($_POST['btnCancel'])) { ?>
                                         $result = $db->getResult();
                                         foreach ($result as $value) {
                                         ?>
-                                         <option value='<?= $value['id'] ?>' <?=$res[0]['staff_id'] == $value['name'] ? ' selected="selected"' : '';?>><?= $value['name'] ?></option>
+                                         <option value='<?= $value['id'] ?>' <?=$res[0]['staff_id'] == $value['id'] ? ' selected="selected"' : '';?>><?= $value['name'] ?></option>
                                         <?php } ?>
                                     </select>
                                 </div>
@@ -112,7 +113,7 @@ if (isset($_POST['btnCancel'])) { ?>
 								<div class="col-md-3">
 									<div class="form-group">
 										<label for="exampleInputEmail1">Project Name</label><i class="text-danger asterik">*</i>
-										<select id='project_name' name="project_name" class='form-control' required>
+										<select id='project_id' name="project_id" class='form-control' required>
 										<option value="">Select</option>
 													<?php
 													$sql = "SELECT * FROM `projects`";
@@ -121,7 +122,7 @@ if (isset($_POST['btnCancel'])) { ?>
 													$result = $db->getResult();
 													foreach ($result as $value) {
 													?>
-														<option value='<?= $value['name'] ?>' <?=$res[0]['project_name'] == $value['name'] ? ' selected="selected"' : '';?>><?= $value['name'] ?></option>
+														<option value='<?= $value['id'] ?>' <?=$res[0]['project_id'] == $value['id'] ? ' selected="selected"' : '';?>><?= $value['name'] ?></option>
 													<?php } ?>
 										</select>
 									</div>
@@ -139,6 +140,19 @@ if (isset($_POST['btnCancel'])) { ?>
 									</div>
 								</div>
                             </div>
+							<div class="row">
+									<div class="form-group col-md-4">
+										<label class="control-label">Status</label><i class="text-danger asterik">*</i>
+										<div id="status" class="btn-group">
+											<label class="btn btn-success" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+												<input type="radio" name="status" value="1" <?= ($res[0]['status'] == 1) ? 'checked' : ''; ?>> Verified
+											</label>
+											<label class="btn btn-danger" data-toggle-class="btn-default" data-toggle-passive-class="btn-default">
+												<input type="radio" name="status" value="0" <?= ($res[0]['status'] == 0) ? 'checked' : ''; ?>> Not-verified
+											</label>
+										</div>
+									</div>
+							</div>
                                 
                    </div><!-- /.box-body -->
                        

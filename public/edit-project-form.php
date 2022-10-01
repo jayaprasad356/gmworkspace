@@ -34,7 +34,7 @@ if (isset($_POST['btnEdit'])) {
       
 		if (!empty($name) && !empty($client_name) && !empty($description))
 		 {	
-             $sql_query = "UPDATE project SET name='$name',client_name='$client_name',description='$description' WHERE id =  $ID";
+             $sql_query = "UPDATE projects SET name='$name',client_id='$client_name',description='$description' WHERE id =  $ID";
 			 $db->sql($sql_query);
 			 $res = $db->getResult();
              $update_result = $db->getResult();
@@ -104,7 +104,7 @@ if (isset($_POST['btnCancel'])) { ?>
                                                         $result = $db->getResult();
                                                         foreach ($result as $value) {
                                                         ?>
-													 <option value='<?= $value['name'] ?>' <?= $value['name']==$res[0]['client_name'] ? 'selected="selected"' : '';?>><?= $value['name'] ?></option>
+													 <option value='<?= $value['id'] ?>' <?= $value['id']==$res[0]['client_id'] ? 'selected="selected"' : '';?>><?= $value['name'] ?></option>
                                                     <?php } ?>
                                                 </select>
                                     </div>

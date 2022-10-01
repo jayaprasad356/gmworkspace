@@ -23,7 +23,7 @@ if (isset($_POST['btnAdd'])) {
         }
        if (!empty($name)  && !empty($client_name) && !empty($description)) 
        {  
-            $sql_query = "INSERT INTO projects (name,client_name,description)VALUES('$name','$client_name','$description')";
+            $sql_query = "INSERT INTO projects (name,client_id,description)VALUES('$name','$client_name','$description')";
             $db->sql($sql_query);
             $result = $db->getResult();
             if (!empty($result)) {
@@ -78,7 +78,7 @@ if (isset($_POST['btnAdd'])) {
                                                 $result = $db->getResult();
                                                 foreach ($result as $value) {
                                                 ?>
-                                                    <option value='<?= $value['name'] ?>'><?= $value['name'] ?></option>
+                                                    <option value='<?= $value['id'] ?>'><?= $value['name'] ?></option>
                                             <?php } ?>
                                         </select>
                                     </div>

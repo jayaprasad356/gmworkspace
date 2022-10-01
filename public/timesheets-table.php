@@ -44,10 +44,11 @@
                                     
                                     <th  data-field="id" data-sortable="true">ID</th>
                                     <th data-field="date" data-sortable="true">Date</th>
-                                    <th  data-field="staff_id" data-sortable="true">Staff Id</th>
+                                    <th  data-field="name" data-sortable="true">Staff Name</th>
                                     <th  data-field="project_name" data-sortable="true"> Project Name</th>
                                     <th  data-field="description" data-sortable="true">Description</th>
                                     <th  data-field="hours" data-sortable="true">Worked Hours</th>
+                                    <th  data-field="status" data-sortable="true">Status</th>
                                     <th  data-field="operate" data-events="actionEvents">Action</th>
                                 </tr>
                             </thead>

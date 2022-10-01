@@ -183,7 +183,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'projects') {
 
     if (isset($_GET['search']) && !empty($_GET['search'])) {
         $search = $db->escapeString($fn->xss_clean($_GET['search']));
-        $where .= "WHERE name like '%" . $search . "%' OR client_name like '%" . $search . "%' OR description like '%" . $search . "%' ";
+        $where .= "WHERE name like '%" . $search . "%' OR client_name like '%" . $search . "%' OR description like '%" . $search . "%'";
     }
     if (isset($_GET['sort'])){
         $sort = $db->escapeString($_GET['sort']);
@@ -199,7 +199,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'projects') {
     foreach ($res as $row)
         $total = $row['total'];
 
-    $sql = "SELECT * FROM projects ". $where ." ORDER BY " . $sort . " " . $order . " LIMIT " . $offset . "," . $limit;
+    $sql = "SELECT *,clients.name AS client_name,projects.name AS name FROM projects,clients WHERE projects.client_id=clients.id";
     $db->sql($sql);
     $res = $db->getResult();
 
@@ -247,7 +247,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'timesheets') {
 
     if (isset($_GET['search']) && !empty($_GET['search'])) {
         $search = $db->escapeString($fn->xss_clean($_GET['search']));
-        $where .= "WHERE project_name like '%" . $search . "%' OR date like '%" . $search . "%' OR description like '%" . $search . "%' ";
+        $where .= "WHERE project_id like '%" . $search . "%' OR date like '%" . $search . "%' OR description like '%" . $search . "%' ";
     }
     if (isset($_GET['sort'])){
         $sort = $db->escapeString($_GET['sort']);
@@ -263,7 +263,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'timesheets') {
     foreach ($res as $row)
         $total = $row['total'];
 
-    $sql = "SELECT * FROM timesheets $where ORDER BY $sort $order LIMIT $offset,$limit";
+    $sql = "SELECT *,projects.name AS project_name,timesheets.id AS id,timesheets.status AS status,timesheets.description AS description FROM timesheets,projects,staffs WHERE timesheets.staff_id=staffs.id AND projects.id=timesheets.project_id";
     $db->sql($sql);
     $res = $db->getResult();
 
@@ -277,10 +277,14 @@ if (isset($_GET['table']) && $_GET['table'] == 'timesheets') {
         $operate = ' <a href="edit-timesheet.php?id=' . $row['id'] . '"><i class="fa fa-edit"></i>Edit</a>';
         $tempRow['id'] = $row['id'];
         $tempRow['date'] = $row['date'];
-        $tempRow['staff_id'] = $row['staff_id'];
+        $tempRow['name'] = $row['name'];
         $tempRow['project_name'] = $row['project_name'];
         $tempRow['description'] = $row['description'];
         $tempRow['hours'] = $row['hours'];
+        if ($row['status'] == 1)
+            $tempRow['status'] = "<p class='text text-success'> Verified</p>";
+        else
+            $tempRow['status'] = "<p class='text text-danger'>Not-verified</p>";
         $tempRow['operate'] = $operate;
         $rows[] = $tempRow;
         }

@@ -34,10 +34,10 @@ if (isset($_POST['btnAdd'])) {
                     $res = $db->getResult();
                     for ($i = 0; $i < count($_POST['description']); $i++) {
     
-                        $project_name = $db->escapeString($fn->xss_clean($_POST['project_name'][$i]));
+                        $project_id = $db->escapeString($fn->xss_clean($_POST['project_id'][$i]));
                         $description = $db->escapeString($fn->xss_clean($_POST['description'][$i]));
                         $hours = $db->escapeString($fn->xss_clean($_POST['hours'][$i]));
-                        $sql = "INSERT INTO timesheets (staff_id,date,project_name,description,hours) VALUES('$name','$date','$project_name','$description','$hours')";
+                        $sql = "INSERT INTO timesheets (staff_id,date,project_id,description,hours,status) VALUES('$name','$date','$project_id','$description','$hours',0)";
                         $db->sql($sql);
                         $timesheet_result = $db->getResult();
                     }
@@ -107,7 +107,7 @@ if (isset($_POST['btnAdd'])) {
                                         <div class="col-md-3">
                                             <div class="form-group packate_div">
                                                 <label for="exampleInputEmail1">Project Name</label><i class="text-danger asterik">*</i>
-                                                <select id='project_name' name="project_name[]" class='form-control' required>
+                                                <select id='project_id' name="project_id[]" class='form-control' required>
                                                 <option value="">Select</option>
                                                             <?php
                                                             $sql = "SELECT * FROM `projects`";
@@ -116,7 +116,7 @@ if (isset($_POST['btnAdd'])) {
                                                             $result = $db->getResult();
                                                             foreach ($result as $value) {
                                                             ?>
-                                                                <option value='<?= $value['name'] ?>'><?= $value['name'] ?></option>
+                                                                <option value='<?= $value['id'] ?>'><?= $value['name'] ?></option>
                                                             <?php } ?>
                                                 </select>
                                             </div>
@@ -153,8 +153,8 @@ if (isset($_POST['btnAdd'])) {
                                 <div class="row">
                                         <div class="col-md-3">
                                             <div class="form-group packate_div">
-                                                <label for="exampleInputEmail1">Project Name</label><i class="text-danger asterik">*</i>
-                                                <select id='project_name' name="project_name[]" class='form-control' required>
+                                                <label for="exampleInputEmail1">Project Id</label><i class="text-danger asterik">*</i>
+                                                <select id='project_id' name="project_id[]" class='form-control' required>
                                                 <option value="">Select</option>
                                                             <?php
                                                             $sql = "SELECT * FROM `projects`";
@@ -163,7 +163,7 @@ if (isset($_POST['btnAdd'])) {
                                                             $result = $db->getResult();
                                                             foreach ($result as $value) {
                                                             ?>
-                                                                <option value='<?= $value['name'] ?>'><?= $value['name'] ?></option>
+                                                                <option value='<?= $value['id'] ?>'><?= $value['name'] ?></option>
                                                             <?php } ?>
                                                 </select>
                                             </div>
@@ -202,7 +202,7 @@ if (isset($_POST['btnAdd'])) {
         debug: false,
         rules: {
             name: "required",
-            project_name: "required",
+            project_id: "required",
             date: "required",
             description: "required",
             hours: "required",        
