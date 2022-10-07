@@ -227,13 +227,18 @@ if (isset($_GET['table']) && $_GET['table'] == 'timesheets') {
     $where = '';
     $sort = 'id';
     $order = 'DESC';
+    if ((isset($_GET['date']) && $_GET['date'] != '') && (isset($_GET['staff_id']) && $_GET['staff_id'] != '')) {
+        $date = $db->escapeString($fn->xss_clean($_GET['date']));
+        $staff_id = $db->escapeString($fn->xss_clean($_GET['staff_id']));
+        $where .= " WHERE t.date = '$date' AND t.staff_id='$staff_id' ";
+    }
     if (isset($_GET['date']) && $_GET['date'] != '') {
         $date = $db->escapeString($fn->xss_clean($_GET['date']));
-        $where .= " WHERE date = '$date' ";
+        $where .= " WHERE t.date = '$date'";
     }
     if (isset($_GET['staff_id']) && $_GET['staff_id'] != '') {
         $staff_id = $db->escapeString($fn->xss_clean($_GET['staff_id']));
-        $where .= " WHERE staff_id = '$staff_id' ";
+        $where .= " WHERE t.staff_id='$staff_id' ";
     }
     if (isset($_GET['offset']))
         $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
@@ -247,7 +252,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'timesheets') {
 
     if (isset($_GET['search']) && !empty($_GET['search'])) {
         $search = $db->escapeString($fn->xss_clean($_GET['search']));
-        $where .= "WHERE project_id like '%" . $search . "%' OR date like '%" . $search . "%' OR description like '%" . $search . "%' ";
+        $where .= "WHERE p.id like '%" . $search . "%' OR t.date like '%" . $search . "%' OR t.description like '%" . $search . "%' ";
     }
     if (isset($_GET['sort'])){
         $sort = $db->escapeString($_GET['sort']);
@@ -255,15 +260,19 @@ if (isset($_GET['table']) && $_GET['table'] == 'timesheets') {
     }
     if (isset($_GET['order'])){
         $order = $db->escapeString($_GET['order']);
+    }     
+    
+    $join = "LEFT JOIN `staffs` s ON t.staff_id = s.id
+    LEFT JOIN `projects` p ON p.id = t.project_id";
 
-    }        
-    $sql = "SELECT COUNT(`id`) as total FROM `timesheets`" . $where;
+    $sql = "SELECT COUNT(*) as `total` FROM `timesheets` t $join " . $where . "";
     $db->sql($sql);
     $res = $db->getResult();
     foreach ($res as $row)
         $total = $row['total'];
-
-    $sql = "SELECT *,projects.name AS project_name,timesheets.id AS id,timesheets.status AS status,timesheets.description AS description FROM timesheets,projects,staffs WHERE timesheets.staff_id=staffs.id AND projects.id=timesheets.project_id";
+   
+    $sql = "SELECT t.id AS id,t.*,p.name AS project_name,t.status AS status,s.name AS staff_name  FROM `timesheets` t $join 
+    $where ORDER BY $sort $order LIMIT $offset, $limit";
     $db->sql($sql);
     $res = $db->getResult();
 
@@ -275,9 +284,10 @@ if (isset($_GET['table']) && $_GET['table'] == 'timesheets') {
     foreach ($res as $row) {
 
         $operate = ' <a href="edit-timesheet.php?id=' . $row['id'] . '"><i class="fa fa-edit"></i>Edit</a>';
+        $operate .= ' <a  class="text text-danger" href="delete-timesheet.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
         $tempRow['id'] = $row['id'];
         $tempRow['date'] = $row['date'];
-        $tempRow['name'] = $row['name'];
+        $tempRow['staff_name'] = $row['staff_name'];
         $tempRow['project_name'] = $row['project_name'];
         $tempRow['description'] = $row['description'];
         $tempRow['hours'] = $row['hours'];

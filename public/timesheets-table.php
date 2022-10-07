@@ -35,7 +35,7 @@
                         </div>
                     
                     <div  class="box-body table-responsive">
-                    <table id='users_table' class="table table-hover" data-toggle="table" data-url="api-firebase/get-bootstrap-table-data.php?table=timesheets" data-page-list="[5, 10, 20, 50, 100, 200]" data-show-refresh="true" data-show-columns="true" data-side-pagination="server" data-pagination="true" data-search="true" data-trim-on-search="false" data-filter-control="true" data-query-params="queryParams" data-sort-name="id" data-sort-order="desc" data-show-export="false" data-export-types='["txt","excel"]' data-export-options='{
+                    <table id='users_table' class="table table-hover" data-toggle="table"  data-url="api-firebase/get-bootstrap-table-data.php?table=timesheets" data-page-list="[5, 10, 20, 50, 100, 200]" data-show-refresh="true" data-show-columns="true" data-side-pagination="server" data-pagination="true" data-search="true" data-trim-on-search="false" data-filter-control="true" data-query-params="queryParams" data-sort-name="id" data-sort-order="desc" data-show-export="false" data-show-footer="true" data-export-types='["txt","excel"]' data-export-options='{
                             "fileName": "students-list-<?= date('d-m-Y') ?>",
                             "ignoreColumn": ["operate"] 
                         }'>
@@ -44,10 +44,10 @@
                                     
                                     <th  data-field="id" data-sortable="true">ID</th>
                                     <th data-field="date" data-sortable="true">Date</th>
-                                    <th  data-field="name" data-sortable="true">Staff Name</th>
+                                    <th  data-field="staff_name" data-sortable="true">Staff Name</th>
                                     <th  data-field="project_name" data-sortable="true"> Project Name</th>
-                                    <th  data-field="description" data-sortable="true">Description</th>
-                                    <th  data-field="hours" data-sortable="true">Worked Hours</th>
+                                    <th  data-field="description" data-sortable="true" data-visible="true" data-footer-formatter="totalFormatter">Description</th>
+                                    <th  data-field="hours" data-sortable="true"  data-visible="true" data-footer-formatter="timeFormatter">Worked Hours</th>
                                     <th  data-field="status" data-sortable="true">Status</th>
                                     <th  data-field="operate" data-events="actionEvents">Action</th>
                                 </tr>
@@ -83,4 +83,22 @@ function queryParams(p) {
         search: p.search
     };
 }
+
+function totalFormatter() {
+        return '<span style="color:green;font-weight:bold;font-size:large;">TOTAL HOURS</span>'
+    }
+
+    var total = 0;
+
+    function timeFormatter(data) {
+        var field = this.field
+        return '<span style="color:green;font-weight:bold;font-size:large;"> ' + data.map(function(row) {
+                return +row[field]
+            })
+            .reduce(function(sum, i) {
+                return sum + i
+            }, 0);
+    }
 </script>
+
+s
