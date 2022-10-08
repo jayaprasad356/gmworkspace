@@ -232,14 +232,6 @@ if (isset($_GET['table']) && $_GET['table'] == 'timesheets') {
         $staff_id = $db->escapeString($fn->xss_clean($_GET['staff_id']));
         $where .= " WHERE t.date = '$date' AND t.staff_id='$staff_id' ";
     }
-    if (isset($_GET['date']) && $_GET['date'] != '') {
-        $date = $db->escapeString($fn->xss_clean($_GET['date']));
-        $where .= " WHERE t.date = '$date'";
-    }
-    if (isset($_GET['staff_id']) && $_GET['staff_id'] != '') {
-        $staff_id = $db->escapeString($fn->xss_clean($_GET['staff_id']));
-        $where .= " WHERE t.staff_id='$staff_id' ";
-    }
     if (isset($_GET['offset']))
         $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
     if (isset($_GET['limit']))
@@ -252,7 +244,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'timesheets') {
 
     if (isset($_GET['search']) && !empty($_GET['search'])) {
         $search = $db->escapeString($fn->xss_clean($_GET['search']));
-        $where .= "WHERE p.id like '%" . $search . "%' OR t.date like '%" . $search . "%' OR t.description like '%" . $search . "%' ";
+        $where .= "WHERE t.id like '%" . $search . "%' OR p.name like '%" . $search . "%' OR t.date like '%" . $search . "%' OR t.description like '%" . $search . "%' OR s.name like '%" . $search . "%'";
     }
     if (isset($_GET['sort'])){
         $sort = $db->escapeString($_GET['sort']);
@@ -265,7 +257,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'timesheets') {
     $join = "LEFT JOIN `staffs` s ON t.staff_id = s.id
     LEFT JOIN `projects` p ON p.id = t.project_id";
 
-    $sql = "SELECT COUNT(*) as `total` FROM `timesheets` t $join " . $where . "";
+    $sql = "SELECT COUNT(*) as `total` FROM `timesheets` t $join " . $where . " ";
     $db->sql($sql);
     $res = $db->getResult();
     foreach ($res as $row)
