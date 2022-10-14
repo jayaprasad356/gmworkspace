@@ -227,10 +227,13 @@ if (isset($_GET['table']) && $_GET['table'] == 'timesheets') {
     $where = '';
     $sort = 'id';
     $order = 'DESC';
-    if ((isset($_GET['date']) && $_GET['date'] != '') && (isset($_GET['staff_id']) && $_GET['staff_id'] != '')) {
+    if ((isset($_GET['date']) && $_GET['date'] != '')) {
         $date = $db->escapeString($fn->xss_clean($_GET['date']));
+        $where .= "AND t.date = '$date'";
+    }
+    if ((isset($_GET['staff_id'])  && $_GET['staff_id'] != '')) {
         $staff_id = $db->escapeString($fn->xss_clean($_GET['staff_id']));
-        $where .= " WHERE t.date = '$date' AND t.staff_id='$staff_id' ";
+        $where .= "AND t.staff_id='$staff_id' ";
     }
     if (isset($_GET['offset']))
         $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
@@ -244,7 +247,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'timesheets') {
 
     if (isset($_GET['search']) && !empty($_GET['search'])) {
         $search = $db->escapeString($fn->xss_clean($_GET['search']));
-        $where .= "WHERE t.id like '%" . $search . "%' OR p.name like '%" . $search . "%' OR t.date like '%" . $search . "%' OR t.description like '%" . $search . "%' OR s.name like '%" . $search . "%'";
+        $where .= "t.id like '%" . $search . "%' OR p.name like '%" . $search . "%' OR t.date like '%" . $search . "%' OR t.description like '%" . $search . "%' OR s.name like '%" . $search . "%'";
     }
     if (isset($_GET['sort'])){
         $sort = $db->escapeString($_GET['sort']);
@@ -254,16 +257,15 @@ if (isset($_GET['table']) && $_GET['table'] == 'timesheets') {
         $order = $db->escapeString($_GET['order']);
     }     
     
-    $join = "LEFT JOIN `staffs` s ON t.staff_id = s.id
-    LEFT JOIN `projects` p ON p.id = t.project_id";
+    $join = "WHERE t.staff_id = s.id AND t.project_id = p.id";
 
-    $sql = "SELECT COUNT(*) as `total` FROM `timesheets` t $join " . $where . " ";
+    $sql = "SELECT COUNT(*) as `total` FROM `timesheets` t,`staffs` s,`projects` p $join " . $where . " ";
     $db->sql($sql);
     $res = $db->getResult();
     foreach ($res as $row)
         $total = $row['total'];
    
-    $sql = "SELECT t.id AS id,t.*,p.name AS project_name,t.status AS status,s.name AS staff_name  FROM `timesheets` t $join 
+    $sql = "SELECT t.id AS id,t.*,p.name AS project_name,t.status AS status,s.name AS staff_name  FROM `timesheets` t,`staffs` s,`projects` p $join 
     $where ORDER BY $sort $order LIMIT $offset, $limit";
     $db->sql($sql);
     $res = $db->getResult();
