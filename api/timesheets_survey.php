@@ -58,6 +58,8 @@ for($d=1; $d<=31; $d++)
 // echo "<pre>";
 // print_r($list);
 // echo "</pre>";
+$response['success'] = true;
+$response['message'] = "Successfully Timesheet Survey";
 $response['days'] = $list;
 $response['hours'] = $hours;
 print_r(json_encode($response));
