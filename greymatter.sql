@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 01, 2022 at 11:37 AM
--- Server version: 10.4.24-MariaDB
--- PHP Version: 7.4.29
+-- Generation Time: Oct 26, 2022 at 09:07 AM
+-- Server version: 10.4.25-MariaDB
+-- PHP Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -60,7 +60,8 @@ CREATE TABLE `projects` (
 --
 
 INSERT INTO `projects` (`id`, `name`, `client_id`, `description`) VALUES
-(1, 'Goldplus', 1, 'It is the platform used to buy and sell golds through this application.');
+(1, 'Goldplus', 1, 'It is the platform used to buy and sell golds through this application.'),
+(2, 'Telugucalweb', 1, 'telugucalweb');
 
 -- --------------------------------------------------------
 
@@ -76,6 +77,8 @@ CREATE TABLE `staffs` (
   `mobile` text DEFAULT NULL,
   `password` text DEFAULT NULL,
   `image` text DEFAULT NULL,
+  `github` varchar(255) DEFAULT NULL,
+  `upi` varchar(255) DEFAULT NULL,
   `status` tinyint(4) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -83,9 +86,10 @@ CREATE TABLE `staffs` (
 -- Dumping data for table `staffs`
 --
 
-INSERT INTO `staffs` (`id`, `name`, `role`, `email`, `mobile`, `password`, `image`, `status`) VALUES
-(1, 'A.Divakar ', 'Fullstack Developer', 'divakarvan03@gmail.com', '7358832695', 'Divakar@003', 'upload/staffs/1664191846.5705.jpg', 1),
-(3, 'Karthick', 'Frontend Developer', 'karthick12@gmail.com', '9884747730', 'karthick@6547', 'upload/staffs/1664440617.81.jpg', 1);
+INSERT INTO `staffs` (`id`, `name`, `role`, `email`, `mobile`, `password`, `image`, `github`, `upi`, `status`) VALUES
+(1, 'A.Divakar ', 'Fullstack Developer', 'divakarvan03@gmail.com', '7358832695', 'Divakar@003', 'upload/staffs/1664191846.5705.jpg', NULL, NULL, 1),
+(3, 'Karthick', 'Frontend Developer', 'karthick12@gmail.com', '9884747730', 'karthick@6547', 'upload/staffs/1664440617.81.jpg', NULL, NULL, 1),
+(4, 'Arjun', 'DevOps', 'arjun@gmail.com', '32432535', 'admin123', 'upload/staffs/3089-2022-10-26.png', 'telugucalweb', '345', 0);
 
 -- --------------------------------------------------------
 
@@ -109,7 +113,9 @@ CREATE TABLE `timesheets` (
 
 INSERT INTO `timesheets` (`id`, `date`, `staff_id`, `project_id`, `description`, `hours`, `status`) VALUES
 (1, '2022-10-25', 3, 1, 'updated', 7, 1),
-(3, '2022-10-13', 1, 1, 'yguyu', 6, 0);
+(3, '2022-10-13', 1, 1, 'yguyu', 6, 0),
+(5, '2022-10-12', 3, 2, 'telugucalweb', 1, 0),
+(6, '2022-02-12', 1, 2, 'sdfsvf', 2, 0);
 
 --
 -- Indexes for dumped tables
@@ -153,19 +159,19 @@ ALTER TABLE `clients`
 -- AUTO_INCREMENT for table `projects`
 --
 ALTER TABLE `projects`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `staffs`
 --
 ALTER TABLE `staffs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `timesheets`
 --
 ALTER TABLE `timesheets`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
