@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 26, 2022 at 09:07 AM
--- Server version: 10.4.25-MariaDB
--- PHP Version: 8.1.10
+-- Generation Time: Oct 26, 2022 at 01:47 PM
+-- Server version: 10.4.24-MariaDB
+-- PHP Version: 7.4.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -45,6 +45,35 @@ INSERT INTO `clients` (`id`, `name`, `mobile`, `email`, `address`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `months`
+--
+
+CREATE TABLE `months` (
+  `id` int(11) NOT NULL,
+  `month` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `months`
+--
+
+INSERT INTO `months` (`id`, `month`) VALUES
+(1, 'January'),
+(2, 'February'),
+(3, 'March'),
+(4, 'April'),
+(5, 'May'),
+(6, 'June'),
+(7, 'July'),
+(8, 'August'),
+(9, 'September'),
+(10, 'October'),
+(11, 'November'),
+(12, 'December');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `projects`
 --
 
@@ -79,6 +108,7 @@ CREATE TABLE `staffs` (
   `image` text DEFAULT NULL,
   `github` varchar(255) DEFAULT NULL,
   `upi` varchar(255) DEFAULT NULL,
+  `cost_per_hour` int(11) DEFAULT 0,
   `status` tinyint(4) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -86,10 +116,10 @@ CREATE TABLE `staffs` (
 -- Dumping data for table `staffs`
 --
 
-INSERT INTO `staffs` (`id`, `name`, `role`, `email`, `mobile`, `password`, `image`, `github`, `upi`, `status`) VALUES
-(1, 'A.Divakar ', 'Fullstack Developer', 'divakarvan03@gmail.com', '7358832695', 'Divakar@003', 'upload/staffs/1664191846.5705.jpg', NULL, NULL, 1),
-(3, 'Karthick', 'Frontend Developer', 'karthick12@gmail.com', '9884747730', 'karthick@6547', 'upload/staffs/1664440617.81.jpg', NULL, NULL, 1),
-(4, 'Arjun', 'DevOps', 'arjun@gmail.com', '32432535', 'admin123', 'upload/staffs/3089-2022-10-26.png', 'telugucalweb', '345', 0);
+INSERT INTO `staffs` (`id`, `name`, `role`, `email`, `mobile`, `password`, `image`, `github`, `upi`, `cost_per_hour`, `status`) VALUES
+(1, 'A.Divakar ', 'Fullstack Developer', 'divakarvan03@gmail.com', '7358832695', 'Divakar@003', 'upload/staffs/1664191846.5705.jpg', NULL, NULL, 10, 1),
+(3, 'Karthick', 'Frontend Developer', 'karthick12@gmail.com', '9884747730', 'karthick@6547', 'upload/staffs/1664440617.81.jpg', NULL, NULL, 100, 1),
+(4, 'Arjun', 'DevOps', 'arjun@gmail.com', '32432535', 'admin123', 'upload/staffs/3089-2022-10-26.png', 'telugucalweb', '345', 5, 0);
 
 -- --------------------------------------------------------
 
@@ -113,7 +143,7 @@ CREATE TABLE `timesheets` (
 
 INSERT INTO `timesheets` (`id`, `date`, `staff_id`, `project_id`, `description`, `hours`, `status`) VALUES
 (1, '2022-10-25', 3, 1, 'updated', 7, 1),
-(3, '2022-10-13', 1, 1, 'yguyu', 6, 0),
+(3, '2022-10-13', 1, 1, 'yguyu', 3, 0),
 (5, '2022-10-12', 3, 2, 'telugucalweb', 1, 0),
 (6, '2022-02-12', 1, 2, 'sdfsvf', 2, 0);
 
@@ -125,6 +155,12 @@ INSERT INTO `timesheets` (`id`, `date`, `staff_id`, `project_id`, `description`,
 -- Indexes for table `clients`
 --
 ALTER TABLE `clients`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `months`
+--
+ALTER TABLE `months`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -154,6 +190,12 @@ ALTER TABLE `timesheets`
 --
 ALTER TABLE `clients`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `months`
+--
+ALTER TABLE `months`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `projects`

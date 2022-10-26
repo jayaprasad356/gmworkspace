@@ -301,4 +301,66 @@ if (isset($_GET['table']) && $_GET['table'] == 'timesheets') {
     $bulkData['rows'] = $rows;
     print_r(json_encode($bulkData));
 }
+if (isset($_GET['table']) && $_GET['table'] == 'payout') {
+
+    $offset = 0;
+    $limit = 10;
+    $where = '';
+    $sort = 'id';
+    $order = 'DESC';
+
+    if ((isset($_GET['staff_id'])  && $_GET['staff_id'] != '')) {
+        $staff_id = $db->escapeString($fn->xss_clean($_GET['staff_id']));
+        $where .= "AND t.staff_id='$staff_id' ";
+    }
+    if ((isset($_GET['month_id'])  && $_GET['month_id'] != '')) {
+        $month_id = $db->escapeString($fn->xss_clean($_GET['month_id']));
+        $where .= "AND month_id='$month_id' ";
+    }
+    if (isset($_GET['offset']))
+        $offset = $db->escapeString($_GET['offset']);
+    if (isset($_GET['limit']))
+        $limit = $db->escapeString($_GET['limit']);
+    if (isset($_GET['sort']))
+        $sort = $db->escapeString($_GET['sort']);
+    if (isset($_GET['order']))
+        $order = $db->escapeString($_GET['order']);
+
+    if (isset($_GET['search']) && !empty($_GET['search'])) {
+        $search = $db->escapeString($_GET['search']);
+        $where .= "WHERE t.staff_id like '%" . $search . "%' OR s.name like '%" . $search . "%'";
+    }
+    if (isset($_GET['sort'])){
+        $sort = $db->escapeString($_GET['sort']);
+    }
+    if (isset($_GET['order'])){
+        $order = $db->escapeString($_GET['order']);
+    }
+
+    $sql = "SELECT COUNT(t.staff_id) as `total` FROM `staffs`s,`timesheets`t WHERE t.staff_id = s.id GROUP BY staff_id";
+    $db->sql($sql);
+    $res = $db->getResult();
+    foreach ($res as $row)
+        $total = $row['total'];
+   
+    $sql = "SELECT *,s.name AS staff_name,SUM(t.hours) AS total_hours,SUM(t.hours)*s.cost_per_hour AS total_amount FROM `staffs`s,`timesheets`t WHERE t.staff_id=s.id AND MONTH(t.date)=10 GROUP BY t.staff_id";
+    $db->sql($sql);
+    $res = $db->getResult();
+    $bulkData = array();
+    $bulkData['total'] = $total;
+    
+    $rows = array();
+    $tempRow = array();
+
+    foreach ($res as $row) {
+        $tempRow['id'] = $row['id'];
+        $tempRow['staff_name'] = $row['staff_name'];
+        $tempRow['total_hours'] = $row['total_hours'];
+        $tempRow['cost_per_hour'] = $row['cost_per_hour'];
+        $tempRow['total_amount'] = $row['total_amount'];
+        $rows[] = $tempRow;
+    }
+    $bulkData['rows'] = $rows;
+    print_r(json_encode($bulkData));
+}
 $db->disconnect();

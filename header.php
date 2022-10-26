@@ -194,6 +194,12 @@ $fn = new custom_functions;
                     </a>
                 </li>
                 <li class="treeview">
+                    <a href="payout.php">
+                        <i class="fa fa-money"></i>
+                        <span>Payout</span>
+                    </a>
+                </li>
+                <li class="treeview">
                     <a href="app-update.php">
                         <i class="fa fa-bullseye"></i>
                         <span>App Update</span>
