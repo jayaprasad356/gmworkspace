@@ -28,6 +28,8 @@
                                     <th  data-field="email" data-sortable="true"> Email</th>
                                     <th  data-field="mobile" data-sortable="true">Mobile</th>
                                     <th  data-field="password" data-sortable="true">Password</th>
+                                    <th  data-field="github" data-sortable="true">Github</th>
+                                    <th  data-field="upi" data-sortable="true">Upi</th>
                                     <th data-field="image">Profile</th>
                                     <th  data-field="operate" data-events="actionEvents">Action</th>
                                 </tr>

@@ -32,6 +32,20 @@
                                             <?php } ?>
                                         </select>
                                 </div>
+                                <div class="form-group col-md-4">
+                                       <h4 class="box-title">Filter by Projects </h4>
+                                        <select id='project_id' name="project_id" class='form-control'>
+                                            <option value="">select</option>
+                                                <?php
+                                                $sql = "SELECT id,name FROM `projects`";
+                                                $db->sql($sql);
+                                                $result = $db->getResult();
+                                                foreach ($result as $value) {
+                                                ?>
+                                                    <option value='<?= $value['id'] ?>'><?= $value['name'] ?></option>
+                                            <?php } ?>
+                                        </select>
+                                </div>
                         </div>
                     
                     <div  class="box-body table-responsive">
@@ -71,11 +85,16 @@
             id = $('#staff_id').val();
             $('#users_table').bootstrapTable('refresh');
         });
+        $('#project_id').on('change', function() {
+            id = $('#project_id').val();
+            $('#users_table').bootstrapTable('refresh');
+        });
 
 function queryParams(p) {
     return {
         "date": $('#date').val(),
         "staff_id": $('#staff_id').val(),
+        "project_id": $('#project_id').val(),
         limit: p.limit,
         sort: p.sort,
         order: p.order,

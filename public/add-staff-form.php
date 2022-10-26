@@ -13,6 +13,8 @@ if (isset($_POST['btnAdd'])) {
         $email = $db->escapeString($_POST['email']);
         $mobile = $db->escapeString($_POST['mobile']);
         $password = $db->escapeString($_POST['password']);
+        $github = $db->escapeString($_POST['github']);
+        $upi = $db->escapeString($_POST['upi']);
         
         // get image info
         $menu_image = $db->escapeString($_FILES['product_image']['name']);
@@ -60,7 +62,7 @@ if (isset($_POST['btnAdd'])) {
 
             
            
-            $sql_query = "INSERT INTO staffs (name,role,email,mobile,password,image)VALUES('$name','$role','$email','$mobile','$password','$upload_image')";
+            $sql_query = "INSERT INTO staffs (name,role,email,mobile,password,github,upi,image)VALUES('$name','$role','$email','$mobile','$password','$github','$upi','$upload_image')";
             $db->sql($sql_query);
             $result = $db->getResult();
             if (!empty($result)) {
@@ -127,6 +129,21 @@ if (isset($_POST['btnAdd'])) {
                                         <input type="password" class="form-control" name="password" required />
                                     </div>
                                 </div>
+                                
+                            </div>
+                            <div class="row">
+                                <div class="form-group">
+                                <div class="col-md-6">
+                                            <label for="exampleInputEmail1">Github</label> <i class="text-danger asterik">*</i><?php echo isset($error['github']) ? $error['github'] : ''; ?>
+                                            <input type="text" class="form-control" name="github" required>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label for="exampleInputEmail1">UPI</label> <i class="text-danger asterik">*</i><?php echo isset($error['upi']) ? $error['upi'] : ''; ?>
+                                        <input type="text" class="form-control" name="upi" required />
+                                    </div>
+                                </div>
+                                
                             </div>
                             <br>
                             <div class="row">

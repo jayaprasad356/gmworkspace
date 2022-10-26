@@ -152,6 +152,8 @@ if (isset($_GET['table']) && $_GET['table'] == 'staffs') {
         $tempRow['mobile'] = $row['mobile'];
         $tempRow['email'] = $row['email'];
         $tempRow['password'] = $row['password'];
+        $tempRow['github'] = $row['github'];
+        $tempRow['upi'] = $row['upi'];
         if(!empty($row['image'])){
             $tempRow['image'] = "<a data-lightbox='category' href='" . $row['image'] . "' data-caption='" . $row['image'] . "'><img src='" . $row['image'] . "' title='" . $row['image'] . "' height='50' /></a>";
 
@@ -234,6 +236,10 @@ if (isset($_GET['table']) && $_GET['table'] == 'timesheets') {
     if ((isset($_GET['staff_id'])  && $_GET['staff_id'] != '')) {
         $staff_id = $db->escapeString($fn->xss_clean($_GET['staff_id']));
         $where .= "AND t.staff_id='$staff_id' ";
+    }
+    if ((isset($_GET['project_id'])  && $_GET['project_id'] != '')) {
+        $project_id = $db->escapeString($fn->xss_clean($_GET['project_id']));
+        $where .= "AND t.project_id='$project_id' ";
     }
     if (isset($_GET['offset']))
         $offset = $db->escapeString($fn->xss_clean($_GET['offset']));

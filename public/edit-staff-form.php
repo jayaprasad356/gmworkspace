@@ -21,6 +21,8 @@ if (isset($_POST['btnEdit'])) {
 	$email = $db->escapeString($_POST['email']);
 	$mobile = $db->escapeString($_POST['mobile']);
 	$password = $db->escapeString($_POST['password']);
+	$github = $db->escapeString($_POST['github']);
+	$upi = $db->escapeString($_POST['upi']);
 	$error = array();
 
 
@@ -43,7 +45,7 @@ if (isset($_POST['btnEdit'])) {
 
 		
 
-		if (!empty($name) && !empty($role) && !empty($email) && !empty($mobile)&& !empty($password))
+		if (!empty($name) && !empty($role) && !empty($email) && !empty($mobile)&& !empty($password)&& !empty($github)&& !empty($upi))
 		 {
 			if ($_FILES['image']['size'] != 0 && $_FILES['image']['error'] == 0 && !empty($_FILES['image'])) {
 				//image isn't empty and update the image
@@ -68,7 +70,7 @@ if (isset($_POST['btnEdit'])) {
 				$db->sql($sql);
 			}
 			
-             $sql_query = "UPDATE staffs SET name='$name',role='$role',email='$email',mobile='$mobile',password='$password' WHERE id =  $ID";
+             $sql_query = "UPDATE staffs SET name='$name',role='$role',email='$email',mobile='$mobile',password='$password',github='$github',upi='$upi' WHERE id =  $ID";
 			 $db->sql($sql_query);
 			 $res = $db->getResult();
              $update_result = $db->getResult();
@@ -148,6 +150,19 @@ if (isset($_POST['btnCancel'])) { ?>
                                     <div class="col-md-6">
                                         <label for="exampleInputEmail1">Password</label> <i class="text-danger asterik">*</i><?php echo isset($error['password']) ? $error['password'] : ''; ?>
                                         <input type="password" class="form-control" name="password" value="<?php echo $res[0]['password']; ?>" />
+                                    </div>
+                                </div>
+                            </div>
+							<div class="row">
+                                <div class="form-group">
+                                <div class="col-md-6">
+                                            <label for="exampleInputEmail1">Github</label> <i class="text-danger asterik">*</i><?php echo isset($error['github']) ? $error['github'] : ''; ?>
+                                            <input type="text" class="form-control" name="github" value="<?php echo $res[0]['github']; ?>">
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label for="exampleInputEmail1">Upi</label> <i class="text-danger asterik">*</i><?php echo isset($error['upi']) ? $error['upi'] : ''; ?>
+                                        <input type="text" class="form-control" name="upi" value="<?php echo $res[0]['upi']; ?>" />
                                     </div>
                                 </div>
                             </div>
