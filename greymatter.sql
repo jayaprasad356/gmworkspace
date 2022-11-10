@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 26, 2022 at 01:47 PM
--- Server version: 10.4.24-MariaDB
--- PHP Version: 7.4.29
+-- Generation Time: Nov 10, 2022 at 08:53 AM
+-- Server version: 10.4.22-MariaDB
+-- PHP Version: 7.4.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `greymatter`
+-- Database: `gmworkspace`
 --
 
 -- --------------------------------------------------------
@@ -124,6 +124,28 @@ INSERT INTO `staffs` (`id`, `name`, `role`, `email`, `mobile`, `password`, `imag
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tasks`
+--
+
+CREATE TABLE `tasks` (
+  `id` int(11) NOT NULL,
+  `project_id` int(11) DEFAULT NULL,
+  `description` text DEFAULT NULL,
+  `assign_id` int(11) DEFAULT NULL,
+  `status` tinyint(4) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tasks`
+--
+
+INSERT INTO `tasks` (`id`, `project_id`, `description`, `assign_id`, `status`) VALUES
+(1, 2, 'sfsfsfsdd dsds', 4, 2),
+(2, 1, 'dsdsds', 1, 2);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `timesheets`
 --
 
@@ -143,7 +165,7 @@ CREATE TABLE `timesheets` (
 
 INSERT INTO `timesheets` (`id`, `date`, `staff_id`, `project_id`, `description`, `hours`, `status`) VALUES
 (1, '2022-10-25', 3, 1, 'updated', 7, 1),
-(3, '2022-10-13', 1, 1, 'yguyu', 3, 0),
+(3, '2022-11-02', 1, 1, 'yguyu', 3, 0),
 (5, '2022-10-12', 3, 2, 'telugucalweb', 1, 0),
 (6, '2022-02-12', 1, 2, 'sdfsvf', 2, 0);
 
@@ -173,6 +195,12 @@ ALTER TABLE `projects`
 -- Indexes for table `staffs`
 --
 ALTER TABLE `staffs`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tasks`
+--
+ALTER TABLE `tasks`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -208,6 +236,12 @@ ALTER TABLE `projects`
 --
 ALTER TABLE `staffs`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `tasks`
+--
+ALTER TABLE `tasks`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `timesheets`
