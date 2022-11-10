@@ -194,6 +194,12 @@ $fn = new custom_functions;
                     </a>
                 </li>
                 <li class="treeview">
+                    <a href="tasks.php">
+                        <i class="fa fa-bullseye"></i>
+                        <span>Tasks</span>
+                    </a>
+                </li>
+                <li class="treeview">
                     <a href="payout.php">
                         <i class="fa fa-money"></i>
                         <span>Payout</span>
@@ -205,6 +211,7 @@ $fn = new custom_functions;
                         <span>App Update</span>
                     </a>
                 </li>
+                
               
               
             </ul>

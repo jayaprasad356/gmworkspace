@@ -15,7 +15,6 @@ if (isset($_GET['id'])) {
 }
 
 if (isset($_POST['btnEdit'])) {
-
 	    $error = array();
         $date = $db->escapeString($fn->xss_clean($_POST['date']));
         $name = $db->escapeString($fn->xss_clean($_POST['name']));
@@ -52,8 +51,6 @@ if (isset($_POST['btnEdit'])) {
 			}
 		}
 	} 
-
-
 // create array variable to store previous data
 $data = array();
 

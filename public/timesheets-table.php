@@ -14,11 +14,19 @@
             <div class="col-xs-12">
                 <div class="box">
                        <div class="box-header">
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-3">
+                                    <h4 class="box-title">Filter by Status </h4>
+                                    <select id='status' name="status" class='form-control'>
+                                            <option value="">All</option>
+                                            <option value="0">Not Verified</option>
+                                            <option value="1">Verified</option>
+                                        </select>
+                                </div>
+                                <div class="form-group col-md-3">
                                     <h4 class="box-title">Filter by Date </h4>
                                     <input type="date" class="form-control" id="date" name="date">
                                 </div>
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-3">
                                        <h4 class="box-title">Filter by Staff </h4>
                                         <select id='staff_id' name="staff_id" class='form-control'>
                                             <option value="">select</option>
@@ -32,7 +40,7 @@
                                             <?php } ?>
                                         </select>
                                 </div>
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-3">
                                        <h4 class="box-title">Filter by Projects </h4>
                                         <select id='project_id' name="project_id" class='form-control'>
                                             <option value="">select</option>
@@ -89,12 +97,17 @@
             id = $('#project_id').val();
             $('#users_table').bootstrapTable('refresh');
         });
+        $('#status').on('change', function() {
+            id = $('#status').val();
+            $('#users_table').bootstrapTable('refresh');
+        });
 
 function queryParams(p) {
     return {
         "date": $('#date').val(),
         "staff_id": $('#staff_id').val(),
         "project_id": $('#project_id').val(),
+        "status": $('#status').val(),
         limit: p.limit,
         sort: p.sort,
         order: p.order,

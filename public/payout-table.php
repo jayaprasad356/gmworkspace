@@ -11,31 +11,19 @@
             <div class="col-xs-12">
                 <div class="box">
                        <div class="box-header">
-                                <div class="form-group col-md-4">
-                                       <h4 class="box-title">Filter by Staff </h4>
-                                        <select id='staff_id' name="staff_id" class='form-control'>
-                                            <option value="">select</option>
-                                                <?php
-                                                $sql = "SELECT id,name FROM `staffs`";
-                                                $db->sql($sql);
-                                                $result = $db->getResult();
-                                                foreach ($result as $value) {
-                                                ?>
-                                                    <option value='<?= $value['id'] ?>'><?= $value['name'] ?></option>
-                                            <?php } ?>
-                                        </select>
-                                </div>
+
                                 <div class="form-group col-md-4">
                                        <h4 class="box-title">Filter by Month </h4>
-                                        <select id='month_id' name="month_id" class='form-control'>
+                                        <select id='month' name="month" class='form-control'>
                                             <option value="">select</option>
                                                 <?php
                                                 $sql = "SELECT id,month FROM `months`";
                                                 $db->sql($sql);
                                                 $result = $db->getResult();
+                                                $month = date('m');
                                                 foreach ($result as $value) {
                                                 ?>
-                                                    <option value='<?= $value['id'] ?>'><?= $value['month'] ?></option>
+                                                    <option value='<?= $value['id'] ?>' <?=$month == $value['id'] ? ' selected="selected"' : '';?>><?= $value['month'] ?></option>
                                             <?php } ?>
                                         </select>
                                 </div>
@@ -69,7 +57,7 @@
             id = $('#staff_id').val();
             $('#users_table').bootstrapTable('refresh');
         });
-        $('#month_id').on('change', function() {
+        $('#month').on('change', function() {
             id = $('#month_id').val();
             $('#users_table').bootstrapTable('refresh');
         });
@@ -77,7 +65,7 @@
 function queryParams(p) {
     return {
         "staff_id": $('#staff_id').val(),
-        "month_id": $('#month_id').val(),
+        "month": $('#month').val(),
         limit: p.limit,
         sort: p.sort,
         order: p.order,

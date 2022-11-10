@@ -229,6 +229,10 @@ if (isset($_GET['table']) && $_GET['table'] == 'timesheets') {
     $where = '';
     $sort = 'id';
     $order = 'DESC';
+    if ((isset($_GET['status'])  && $_GET['status'] != '')) {
+        $status = $db->escapeString($fn->xss_clean($_GET['status']));
+        $where .= "AND t.status='$status' ";
+    }
     if ((isset($_GET['date']) && $_GET['date'] != '')) {
         $date = $db->escapeString($fn->xss_clean($_GET['date']));
         $where .= "AND t.date = '$date'";
@@ -309,13 +313,13 @@ if (isset($_GET['table']) && $_GET['table'] == 'payout') {
     $sort = 'id';
     $order = 'DESC';
 
-    if ((isset($_GET['staff_id'])  && $_GET['staff_id'] != '')) {
-        $staff_id = $db->escapeString($fn->xss_clean($_GET['staff_id']));
-        $where .= "AND t.staff_id='$staff_id' ";
-    }
-    if ((isset($_GET['month_id'])  && $_GET['month_id'] != '')) {
-        $month_id = $db->escapeString($fn->xss_clean($_GET['month_id']));
-        $where .= "AND month_id='$month_id' ";
+    // if ((isset($_GET['staff_id'])  && $_GET['staff_id'] != '')) {
+    //     $staff_id = $db->escapeString($fn->xss_clean($_GET['staff_id']));
+    //     $where .= "AND t.staff_id='$staff_id' ";
+    // }
+    if ((isset($_GET['month'])  && $_GET['month'] != '')) {
+        $month = $db->escapeString($fn->xss_clean($_GET['month']));
+        $where .= "AND MONTH(t.date)='$month' ";
     }
     if (isset($_GET['offset']))
         $offset = $db->escapeString($_GET['offset']);
@@ -326,10 +330,10 @@ if (isset($_GET['table']) && $_GET['table'] == 'payout') {
     if (isset($_GET['order']))
         $order = $db->escapeString($_GET['order']);
 
-    if (isset($_GET['search']) && !empty($_GET['search'])) {
-        $search = $db->escapeString($_GET['search']);
-        $where .= "WHERE t.staff_id like '%" . $search . "%' OR s.name like '%" . $search . "%'";
-    }
+    // if (isset($_GET['search']) && !empty($_GET['search'])) {
+    //     $search = $db->escapeString($_GET['search']);
+    //     $where .= "WHERE t.staff_id like '%" . $search . "%' OR s.name like '%" . $search . "%'";
+    // }
     if (isset($_GET['sort'])){
         $sort = $db->escapeString($_GET['sort']);
     }
@@ -337,13 +341,13 @@ if (isset($_GET['table']) && $_GET['table'] == 'payout') {
         $order = $db->escapeString($_GET['order']);
     }
 
-    $sql = "SELECT COUNT(t.staff_id) as `total` FROM `staffs`s,`timesheets`t WHERE t.staff_id = s.id GROUP BY staff_id";
+    $sql = "SELECT COUNT(t.staff_id) as `total` FROM `staffs`s,`timesheets`t WHERE t.staff_id = s.id ".$where." GROUP BY t.staff_id";
     $db->sql($sql);
     $res = $db->getResult();
     foreach ($res as $row)
         $total = $row['total'];
    
-    $sql = "SELECT *,s.name AS staff_name,SUM(t.hours) AS total_hours,SUM(t.hours)*s.cost_per_hour AS total_amount FROM `staffs`s,`timesheets`t WHERE t.staff_id=s.id AND MONTH(t.date)=10 GROUP BY t.staff_id";
+    $sql = "SELECT *,s.name AS staff_name,SUM(t.hours) AS total_hours,SUM(t.hours)*s.cost_per_hour AS total_amount FROM `staffs`s,`timesheets`t WHERE t.staff_id=s.id ".$where." GROUP BY t.staff_id";
     $db->sql($sql);
     $res = $db->getResult();
     $bulkData = array();
@@ -360,6 +364,82 @@ if (isset($_GET['table']) && $_GET['table'] == 'payout') {
         $tempRow['total_amount'] = $row['total_amount'];
         $rows[] = $tempRow;
     }
+    $bulkData['rows'] = $rows;
+    print_r(json_encode($bulkData));
+}
+if (isset($_GET['table']) && $_GET['table'] == 'tasks') {
+    $offset = 0;
+    $limit = 10;
+    $where = '';
+    $sort = 'tasks.id';
+    $order = 'DESC';
+    if ((isset($_GET['status'])  && $_GET['status'] != '')) {
+        $status = $db->escapeString($fn->xss_clean($_GET['status']));
+        $where .= "AND tasks.status='$status' ";
+    }
+    if ((isset($_GET['staff_id'])  && $_GET['staff_id'] != '')) {
+        $staff_id = $db->escapeString($fn->xss_clean($_GET['staff_id']));
+        $where .= "AND tasks.assign_id='$staff_id' ";
+    }
+    if (isset($_GET['offset']))
+        $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
+    if (isset($_GET['limit']))
+        $limit = $db->escapeString($fn->xss_clean($_GET['limit']));
+
+    if (isset($_GET['sort']))
+        $sort = $db->escapeString($fn->xss_clean($_GET['sort']));
+    if (isset($_GET['order']))
+        $order = $db->escapeString($fn->xss_clean($_GET['order']));
+
+    if (isset($_GET['search']) && !empty($_GET['search'])) {
+        $search = $db->escapeString($fn->xss_clean($_GET['search']));
+        //$where .= "WHERE name like '%" . $search . "%' OR mobile like '%" . $search . "%' OR address like '%" . $search . "%' ";
+    }
+    if (isset($_GET['sort'])){
+        $sort = $db->escapeString($_GET['sort']);
+
+    }
+    if (isset($_GET['order'])){
+        $order = $db->escapeString($_GET['order']);
+
+    }        
+    $sql = "SELECT COUNT(*) as total FROM `tasks`,`projects` WHERE tasks.project_id = projects.id " . $where;
+    $db->sql($sql);
+    $res = $db->getResult();
+    foreach ($res as $row)
+        $total = $row['total'];
+
+    $sql = "SELECT *,tasks.id AS id,projects.name AS project_name,tasks.description AS description FROM tasks,projects WHERE tasks.project_id = projects.id ". $where ." ORDER BY " . $sort . " " . $order . " LIMIT " . $offset . "," . $limit;
+    $db->sql($sql);
+    $res = $db->getResult();
+
+    $bulkData = array();
+    $bulkData['total'] = $total;
+
+    $rows = array();
+    $tempRow = array();
+    foreach ($res as $row) {
+
+        $operate = ' <a href="edit-task.php?id=' . $row['id'] . '"><i class="fa fa-edit"></i>Edit</a>';
+        $tempRow['id'] = $row['id'];
+        $tempRow['project_name'] = $row['project_name'];
+        $tempRow['description'] = $row['description'];
+        if ($row['status'] == 1){
+            $tempRow['status'] = "<p class='text text-success'>Tested</p>";
+
+        }elseif($row['status'] == 2){
+            $tempRow['status'] = "<p class='text text-primary'>Fixed</p>";
+
+        }
+            
+        else{
+            $tempRow['status'] = "<p class='text text-danger'>Bug</p>";
+
+        }
+            
+        $tempRow['operate'] = $operate;
+        $rows[] = $tempRow;
+        }
     $bulkData['rows'] = $rows;
     print_r(json_encode($bulkData));
 }
