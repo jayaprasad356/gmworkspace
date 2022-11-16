@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 10, 2022 at 08:53 AM
--- Server version: 10.4.22-MariaDB
--- PHP Version: 7.4.27
+-- Generation Time: Nov 15, 2022 at 05:00 PM
+-- Server version: 10.4.25-MariaDB
+-- PHP Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `gmworkspace`
+-- Database: `greymatter`
 --
 
 -- --------------------------------------------------------
@@ -91,6 +91,31 @@ CREATE TABLE `projects` (
 INSERT INTO `projects` (`id`, `name`, `client_id`, `description`) VALUES
 (1, 'Goldplus', 1, 'It is the platform used to buy and sell golds through this application.'),
 (2, 'Telugucalweb', 1, 'telugucalweb');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `project_bill`
+--
+
+CREATE TABLE `project_bill` (
+  `id` int(11) NOT NULL,
+  `project_id` varchar(255) DEFAULT NULL,
+  `amount` int(11) DEFAULT NULL,
+  `balance` int(11) DEFAULT NULL,
+  `image` text DEFAULT NULL,
+  `date` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `project_bill`
+--
+
+INSERT INTO `project_bill` (`id`, `project_id`, `amount`, `balance`, `image`, `date`) VALUES
+(8, '1', 0, 3, '345', '2022-11-20'),
+(9, '1', 0, 22, '345', '4444-03-23'),
+(10, '2', 23, 22, '234', '0333-02-23'),
+(11, '1', 23, 22, 'upload/staffs/4536-2022-11-15.jpeg', '2022-11-03');
 
 -- --------------------------------------------------------
 
@@ -192,6 +217,12 @@ ALTER TABLE `projects`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `project_bill`
+--
+ALTER TABLE `project_bill`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `staffs`
 --
 ALTER TABLE `staffs`
@@ -230,6 +261,12 @@ ALTER TABLE `months`
 --
 ALTER TABLE `projects`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `project_bill`
+--
+ALTER TABLE `project_bill`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `staffs`

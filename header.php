@@ -211,6 +211,12 @@ $fn = new custom_functions;
                         <span>App Update</span>
                     </a>
                 </li>
+                <li class="treeview">
+                    <a href="project-bill.php">
+                        <i class="fa fa-bullseye"></i>
+                        <span>Project Bill</span>
+                    </a>
+                </li>
                 
               
               
