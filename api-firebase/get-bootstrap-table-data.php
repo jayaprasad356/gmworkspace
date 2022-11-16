@@ -288,7 +288,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'timesheets') {
     foreach ($res as $row) {
 
         $operate = ' <a href="edit-timesheet.php?id=' . $row['id'] . '"><i class="fa fa-edit"></i>Edit</a>';
-        //$operate .= ' <a  class="text text-danger" href="delete-timesheet.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
+        $operate .= ' <a  class="text text-danger" href=""><i class="fa fa-trash"></i>Delete</a>';
         $tempRow['id'] = $row['id'];
         $tempRow['date'] = $row['date'];
         $tempRow['staff_name'] = $row['staff_name'];
