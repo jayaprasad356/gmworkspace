@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 15, 2022 at 05:00 PM
--- Server version: 10.4.25-MariaDB
--- PHP Version: 8.1.10
+-- Generation Time: Nov 22, 2022 at 11:32 AM
+-- Server version: 10.4.24-MariaDB
+-- PHP Version: 7.4.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -112,10 +112,7 @@ CREATE TABLE `project_bill` (
 --
 
 INSERT INTO `project_bill` (`id`, `project_id`, `amount`, `balance`, `image`, `date`) VALUES
-(8, '1', 0, 3, '345', '2022-11-20'),
-(9, '1', 0, 22, '345', '4444-03-23'),
-(10, '2', 23, 22, '234', '0333-02-23'),
-(11, '1', 23, 22, 'upload/staffs/4536-2022-11-15.jpeg', '2022-11-03');
+(1, '2', 10000, 4000, 'upload/receipt/6800-2022-11-22.jpg', '2022-11-21');
 
 -- --------------------------------------------------------
 
@@ -266,7 +263,7 @@ ALTER TABLE `projects`
 -- AUTO_INCREMENT for table `project_bill`
 --
 ALTER TABLE `project_bill`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `staffs`
