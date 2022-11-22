@@ -84,7 +84,7 @@ if (isset($_POST['btnPaid'])  && isset($_POST['enable'])) {
                                         <input type="checkbox" onchange="checkAll(this)" name="chk[]" > Select All</input>
                                     </div> 
                                     <div class="col-md-3">
-                                            <button type="submit" class="btn btn-primary" name="btnUnpaid">Not-verified</button>
+                                            <button type="submit" class="btn btn-danger" name="btnUnpaid">Not-verified</button>
                                             <button type="submit" class="btn btn-success" name="btnPaid">Verified</button>                                        
                                     </div>
 
