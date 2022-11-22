@@ -18,7 +18,6 @@ if (isset($_POST['btnEdit'])) {
 
     $project_id = $db->escapeString(($_POST['project_id']));
     $amount = $db->escapeString($_POST['amount']);
-    $balance = $db->escapeString($_POST['balance']);
     $date = $db->escapeString($_POST['date']);
     $error = array();
 
@@ -29,9 +28,6 @@ if (isset($_POST['btnEdit'])) {
     if (empty($amount)) {
         $error['amount'] = " <span class='label label-danger'>Required!</span>";
     }
-    if (empty($balance)) {
-        $error['balance'] = " <span class='label label-danger'>Required!</span>";
-    }
     if (empty($date)) {
         $error['date'] = " <span class='label label-danger'>Required!</span>";
     }
@@ -40,7 +36,7 @@ if (isset($_POST['btnEdit'])) {
 
 
 
-    if (!empty($project_id) && !empty($amount) && !empty($balance) && !empty($date)) {
+    if (!empty($project_id) && !empty($amount) && !empty($date)) {
         if ($_FILES['image']['size'] != 0 && $_FILES['image']['error'] == 0 && !empty($_FILES['image'])) {
             //image isn't empty and update the image
             $old_image = $db->escapeString($_POST['old_image']);
@@ -64,7 +60,7 @@ if (isset($_POST['btnEdit'])) {
             $db->sql($sql);
         }
 
-        $sql_query = "UPDATE project_bill SET project_id='$project_id',amount='$amount',balance='$balance',date='$date' WHERE id =  $ID";
+        $sql_query = "UPDATE project_bill SET project_id='$project_id',amount='$amount',date='$date' WHERE id =  $ID";
         $db->sql($sql_query);
         $res = $db->getResult();
         $update_result = $db->getResult();
@@ -122,6 +118,15 @@ if (isset($_POST['btnCancel'])) { ?>
                         <input type="hidden" id="old_image" name="old_image" value="<?= $res[0]['image']; ?>">
                         <div class="row">
                             <div class="form-group">
+                                <div class="col-md-6">
+                                    <label for="exampleInputEmail1">Date</label> <i class="text-danger asterik">*</i><?php echo isset($error['date']) ? $error['date'] : ''; ?>
+                                    <input type="date" class="form-control" name="date" value="<?php echo $res[0]['date']; ?>">
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="form-group">
                                 <div class='col-md-6'>
                                     <label for="exampleInputEmail1">Project</label> <i class="text-danger asterik">*</i>
                                     <select id='project_id' name="project_id" class='form-control' required>
@@ -149,23 +154,10 @@ if (isset($_POST['btnCancel'])) { ?>
                         <div class="row">
                             <div class="form-group">
                                 <div class="col-md-6">
-                                    <label for="exampleInputEmail1">Balance</label> <i class="text-danger asterik">*</i><?php echo isset($error['balance']) ? $error['balance'] : ''; ?>
-                                    <input type="number" class="form-control" name="balance" value="<?php echo $res[0]['balance']; ?>">
-                                </div>
-
-                                <div class="col-md-4">
                                     <label for="exampleInputFile">Receipt</label>
 
                                     <input type="file" accept="image/png,  image/jpeg" onchange="readURL(this);" name="image" id="image">
                                     <p class="help-block"><img id="blah" src="<?php echo $res[0]['image']; ?>" style="height:120px;max-width:100%" /></p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group">
-                                <div class="col-md-6">
-                                    <label for="exampleInputEmail1">Date</label> <i class="text-danger asterik">*</i><?php echo isset($error['date']) ? $error['date'] : ''; ?>
-                                    <input type="date" class="form-control" name="date" value="<?php echo $res[0]['date']; ?>">
                                 </div>
                             </div>
                         </div>

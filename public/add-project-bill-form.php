@@ -10,7 +10,6 @@ if (isset($_POST['btnAdd'])) {
 
     $project_id = $db->escapeString(($_POST['project_id']));
     $amount = $db->escapeString($_POST['amount']);
-    $balance = $db->escapeString($_POST['balance']);
     $date = $db->escapeString($_POST['date']);
 
     // get image info
@@ -33,15 +32,12 @@ if (isset($_POST['btnAdd'])) {
     if (empty($amount)) {
         $error['amount'] = " <span class='label label-danger'>Required!</span>";
     }
-    if (empty($balance)) {
-        $error['balance'] = " <span class='label label-danger'>Required!</span>";
-    }
     if (empty($date)) {
         $error['date'] = " <span class='label label-danger'>Required!</span>";
     }
 
 
-    if (!empty($project_id) && !empty($amount) && !empty($balance) && !empty($date))
+    if (!empty($project_id) && !empty($amount) && !empty($date))
      {
         $result = $fn->validate_image($_FILES["product_image"]);
         // create random image file name
@@ -57,7 +53,7 @@ if (isset($_POST['btnAdd'])) {
 
 
 
-        $sql_query = "INSERT INTO project_bill (project_id,amount,balance,image,date)VALUES('$project_id','$amount','$balance','$upload_image','$date')";
+        $sql_query = "INSERT INTO project_bill (project_id,amount,image,date)VALUES('$project_id','$amount','$upload_image','$date')";
         $db->sql($sql_query);
         $result = $db->getResult();
         if (!empty($result)) {
@@ -98,6 +94,16 @@ if (isset($_POST['btnAdd'])) {
                 <!-- form start -->
                 <form name="add_project_bill_form" method="post" enctype="multipart/form-data">
                     <div class="box-body">
+                       <div class="row">
+                            <div class="form-group">
+                                <div class="col-md-6">
+                                    <label for="exampleInputEmail1">Date</label> <i class="text-danger asterik">*</i><?php echo isset($error['date']) ? $error['date'] : ''; ?>
+                                    <input type="date" class="form-control" name="date" required>
+                                </div>
+                            </div>
+                            <br>
+                        </div>
+                        <br>
                         <div class="row">
                             <div class="form-group">
                                 <div class="col-md-6">
@@ -125,26 +131,12 @@ if (isset($_POST['btnAdd'])) {
                         <div class="row">
                             <div class="form-group">
                                 <div class="col-md-6">
-                                    <label for="exampleInputEmail1">Balance</label> <i class="text-danger asterik">*</i><?php echo isset($error['balance']) ? $error['balance'] : ''; ?>
-                                    <input type="text" class="form-control" name="balance" required>
-                                </div>
-
-                                <div class="col-md-6">
                                     <label for="exampleInputFile">Receipt</label> <i class="text-danger asterik">*</i><?php echo isset($error['product_image']) ? $error['product_image'] : ''; ?>
                                     <input type="file" name="product_image" onchange="readURL(this);" accept="image/png,  image/jpeg" id="product_image" required />
                                     <img id="blah" src="#" alt="" />
                                 </div>
                             </div>
 
-                        </div>
-                        <div class="row">
-                            <div class="form-group">
-                                <div class="col-md-6">
-                                    <label for="exampleInputEmail1">Date</label> <i class="text-danger asterik">*</i><?php echo isset($error['date']) ? $error['date'] : ''; ?>
-                                    <input type="date" class="form-control" name="date" required>
-                                </div>
-                            </div>
-                            <br>
                         </div>
                      </div>
 
@@ -172,7 +164,6 @@ if (isset($_POST['btnAdd'])) {
         rules: {
             project_id: "required",
             amount: "required",
-            balance: "required",
         }
     });
     $('#btnClear').on('click', function() {

@@ -25,7 +25,6 @@
                                     <th  data-field="id" data-sortable="true">ID</th>
                                     <th data-field="name" data-sortable="true">Project Name</th>
                                     <th  data-field="amount" data-sortable="true">Amount</th>
-                                    <th  data-field="balance" data-sortable="true"> Balance</th>
                                     <th data-field="image">Image</th>
                                     <th  data-field="date" data-sortable="true">Date</th>
                                     <th  data-field="operate" data-events="actionEvents">Action</th>

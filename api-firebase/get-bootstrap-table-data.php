@@ -201,7 +201,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'projects') {
     foreach ($res as $row)
         $total = $row['total'];
 
-    $sql = "SELECT *,clients.name AS client_name,projects.name AS name FROM projects,clients WHERE projects.client_id=clients.id";
+    $sql = "SELECT *,clients.name AS client_name,projects.name AS name,projects.price - project_bill.amount AS balance FROM projects,clients,`project_bill` WHERE projects.client_id=clients.id AND project_bill.project_id=projects.id";
     $db->sql($sql);
     $res = $db->getResult();
 
@@ -217,6 +217,8 @@ if (isset($_GET['table']) && $_GET['table'] == 'projects') {
         $tempRow['name'] = $row['name'];
         $tempRow['client_name'] = $row['client_name'];
         $tempRow['description'] = $row['description'];
+        $tempRow['price'] = $row['price'];
+        $tempRow['balance'] = $row['balance'];
         $tempRow['operate'] = $operate;
         $rows[] = $tempRow;
         }
@@ -289,12 +291,14 @@ if (isset($_GET['table']) && $_GET['table'] == 'timesheets') {
 
         $operate = ' <a href="edit-timesheet.php?id=' . $row['id'] . '"><i class="fa fa-edit"></i>Edit</a>';
         //$operate .= ' <a  class="text text-danger" href="delete-timesheet.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
+        $checkbox = '<input type="checkbox" name="enable[]" value="'.$row['id'].'">';
         $tempRow['id'] = $row['id'];
         $tempRow['date'] = $row['date'];
         $tempRow['staff_name'] = $row['staff_name'];
         $tempRow['project_name'] = $row['project_name'];
         $tempRow['description'] = $row['description'];
         $tempRow['hours'] = $row['hours'];
+        $tempRow['column'] = $checkbox;
         if ($row['status'] == 1)
             $tempRow['status'] = "<p class='text text-success'> Verified</p>";
         else
@@ -495,7 +499,6 @@ if (isset($_GET['table']) && $_GET['table'] == 'project_bill') {
         $tempRow['id'] = $row['id'];
         $tempRow['name'] = $row['name'];
         $tempRow['amount'] = $row['amount'];
-        $tempRow['balance'] = $row['balance'];
         if(!empty($row['image'])){
             $tempRow['image'] = "<a data-lightbox='category' href='" . $row['image'] . "' data-caption='" . $row['image'] . "'><img src='" . $row['image'] . "' title='" . $row['image'] . "' height='50' /></a>";
 

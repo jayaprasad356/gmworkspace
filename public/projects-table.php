@@ -26,7 +26,8 @@
                                     <th data-field="name" data-sortable="true">Name</th>
                                     <th  data-field="client_name" data-sortable="true"> Client Name</th>
                                     <th  data-field="description" data-sortable="true">Description</th>
-                                    <th  data-field="status" data-sortable="true">Status</th>
+                                    <th  data-field="price" data-sortable="true">Amount</th>
+                                    <th  data-field="balance" data-sortable="true">Balance</th>
                                     <th  data-field="operate" data-events="actionEvents">Action</th>
                                 </tr>
                             </thead>
