@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 15, 2022 at 05:00 PM
--- Server version: 10.4.25-MariaDB
--- PHP Version: 8.1.10
+-- Generation Time: Nov 22, 2022 at 12:18 PM
+-- Server version: 10.4.24-MariaDB
+-- PHP Version: 7.4.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,6 +20,26 @@ SET time_zone = "+00:00";
 --
 -- Database: `greymatter`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `app_settings`
+--
+
+CREATE TABLE `app_settings` (
+  `id` int(11) NOT NULL,
+  `link` text DEFAULT NULL,
+  `version` int(200) DEFAULT NULL,
+  `description` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `app_settings`
+--
+
+INSERT INTO `app_settings` (`id`, `link`, `version`, `description`) VALUES
+(1, 'https://ncbcugc.in', 4, 'You can update timesheets by one click');
 
 -- --------------------------------------------------------
 
@@ -81,16 +101,17 @@ CREATE TABLE `projects` (
   `id` int(11) NOT NULL,
   `name` text DEFAULT NULL,
   `client_id` int(11) DEFAULT NULL,
-  `description` text DEFAULT NULL
+  `description` text DEFAULT NULL,
+  `price` int(200) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `projects`
 --
 
-INSERT INTO `projects` (`id`, `name`, `client_id`, `description`) VALUES
-(1, 'Goldplus', 1, 'It is the platform used to buy and sell golds through this application.'),
-(2, 'Telugucalweb', 1, 'telugucalweb');
+INSERT INTO `projects` (`id`, `name`, `client_id`, `description`, `price`) VALUES
+(1, 'Goldplus', 1, 'It is the platform used to buy and sell golds through this application.', 5000),
+(2, 'Telugucalweb', 1, 'telugucalweb', 15000);
 
 -- --------------------------------------------------------
 
@@ -102,7 +123,6 @@ CREATE TABLE `project_bill` (
   `id` int(11) NOT NULL,
   `project_id` varchar(255) DEFAULT NULL,
   `amount` int(11) DEFAULT NULL,
-  `balance` int(11) DEFAULT NULL,
   `image` text DEFAULT NULL,
   `date` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -111,11 +131,8 @@ CREATE TABLE `project_bill` (
 -- Dumping data for table `project_bill`
 --
 
-INSERT INTO `project_bill` (`id`, `project_id`, `amount`, `balance`, `image`, `date`) VALUES
-(8, '1', 0, 3, '345', '2022-11-20'),
-(9, '1', 0, 22, '345', '4444-03-23'),
-(10, '2', 23, 22, '234', '0333-02-23'),
-(11, '1', 23, 22, 'upload/staffs/4536-2022-11-15.jpeg', '2022-11-03');
+INSERT INTO `project_bill` (`id`, `project_id`, `amount`, `image`, `date`) VALUES
+(1, '2', 2000, 'upload/receipt/6800-2022-11-22.jpg', '2022-11-21');
 
 -- --------------------------------------------------------
 
@@ -189,14 +206,20 @@ CREATE TABLE `timesheets` (
 --
 
 INSERT INTO `timesheets` (`id`, `date`, `staff_id`, `project_id`, `description`, `hours`, `status`) VALUES
-(1, '2022-10-25', 3, 1, 'updated', 7, 1),
+(1, '2022-10-25', 3, 1, 'updated', 7, 0),
 (3, '2022-11-02', 1, 1, 'yguyu', 3, 0),
-(5, '2022-10-12', 3, 2, 'telugucalweb', 1, 0),
-(6, '2022-02-12', 1, 2, 'sdfsvf', 2, 0);
+(5, '2022-10-12', 3, 2, 'telugucalweb', 1, 1),
+(6, '2022-02-12', 1, 2, 'sdfsvf', 2, 1);
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `app_settings`
+--
+ALTER TABLE `app_settings`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `clients`
@@ -245,6 +268,12 @@ ALTER TABLE `timesheets`
 --
 
 --
+-- AUTO_INCREMENT for table `app_settings`
+--
+ALTER TABLE `app_settings`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `clients`
 --
 ALTER TABLE `clients`
@@ -266,7 +295,7 @@ ALTER TABLE `projects`
 -- AUTO_INCREMENT for table `project_bill`
 --
 ALTER TABLE `project_bill`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `staffs`

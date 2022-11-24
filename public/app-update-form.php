@@ -31,7 +31,7 @@ if (isset($_POST['btnUpdate'])) {
             }
         }
 }
-$sql_query = "SELECT * FROM app_settings ";
+$sql_query = "SELECT * FROM app_settings";
 $db->sql($sql_query);
 $res = $db->getResult();
 ?>

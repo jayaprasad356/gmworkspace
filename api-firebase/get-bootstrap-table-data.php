@@ -201,7 +201,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'projects') {
     foreach ($res as $row)
         $total = $row['total'];
 
-    $sql = "SELECT *,clients.name AS client_name,projects.name AS name FROM projects,clients WHERE projects.client_id=clients.id";
+    $sql = "SELECT *,clients.name AS client_name,projects.name AS name,projects.price - project_bill.amount AS balance FROM projects,clients,`project_bill` WHERE projects.client_id=clients.id AND project_bill.project_id=projects.id";
     $db->sql($sql);
     $res = $db->getResult();
 
@@ -217,6 +217,8 @@ if (isset($_GET['table']) && $_GET['table'] == 'projects') {
         $tempRow['name'] = $row['name'];
         $tempRow['client_name'] = $row['client_name'];
         $tempRow['description'] = $row['description'];
+        $tempRow['price'] = $row['price'];
+        $tempRow['balance'] = $row['balance'];
         $tempRow['operate'] = $operate;
         $rows[] = $tempRow;
         }
@@ -289,12 +291,14 @@ if (isset($_GET['table']) && $_GET['table'] == 'timesheets') {
 
         $operate = ' <a href="edit-timesheet.php?id=' . $row['id'] . '"><i class="fa fa-edit"></i>Edit</a>';
         //$operate .= ' <a  class="text text-danger" href="delete-timesheet.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
+        $checkbox = '<input type="checkbox" name="enable[]" value="'.$row['id'].'">';
         $tempRow['id'] = $row['id'];
         $tempRow['date'] = $row['date'];
         $tempRow['staff_name'] = $row['staff_name'];
         $tempRow['project_name'] = $row['project_name'];
         $tempRow['description'] = $row['description'];
         $tempRow['hours'] = $row['hours'];
+        $tempRow['column'] = $checkbox;
         if ($row['status'] == 1)
             $tempRow['status'] = "<p class='text text-success'> Verified</p>";
         else
@@ -437,6 +441,72 @@ if (isset($_GET['table']) && $_GET['table'] == 'tasks') {
 
         }
             
+        $tempRow['operate'] = $operate;
+        $rows[] = $tempRow;
+        }
+    $bulkData['rows'] = $rows;
+    print_r(json_encode($bulkData));
+}
+if (isset($_GET['table']) && $_GET['table'] == 'project_bill') {
+    $offset = 0;
+    $limit = 10;
+    $where = '';
+    $sort = 'id';
+    $order = 'DESC';
+    if (isset($_GET['offset']))
+        $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
+    if (isset($_GET['limit']))
+        $limit = $db->escapeString($fn->xss_clean($_GET['limit']));
+
+    if (isset($_GET['sort']))
+        $sort = $db->escapeString($fn->xss_clean($_GET['sort']));
+    if (isset($_GET['order']))
+        $order = $db->escapeString($fn->xss_clean($_GET['order']));
+
+    if (isset($_GET['search']) && !empty($_GET['search'])) {
+        $search = $db->escapeString($fn->xss_clean($_GET['search']));
+        $where .= "WHERE p.name like '%" . $search . "%' OR pb.date like '%" . $search . "%'";
+    }
+    if (isset($_GET['sort'])){
+        $sort = $db->escapeString($_GET['sort']);
+
+    }
+    if (isset($_GET['order'])){
+        $order = $db->escapeString($_GET['order']);
+
+    }        
+    $join = "LEFT JOIN `projects` p ON pb.project_id=p.id";
+
+    $sql = "SELECT COUNT(pb.id) as total FROM `project_bill` pb $join ". $where ."";
+    $db->sql($sql);
+    $res = $db->getResult();
+    foreach ($res as $row)
+        $total = $row['total'];
+
+    $sql = "SELECT pb.id AS id,pb.*,p.name AS name  FROM `project_bill` pb $join
+        $where ORDER BY $sort $order LIMIT $offset, $limit";
+    $db->sql($sql);
+    $res = $db->getResult();
+
+    $bulkData = array();
+    $bulkData['total'] = $total;
+
+    $rows = array();
+    $tempRow = array();
+    foreach ($res as $row) {
+
+        $operate = ' <a href="edit-project-bill.php?id=' . $row['id'] . '"><i class="fa fa-edit"></i>Edit</a>';
+        $tempRow['id'] = $row['id'];
+        $tempRow['name'] = $row['name'];
+        $tempRow['amount'] = $row['amount'];
+        if(!empty($row['image'])){
+            $tempRow['image'] = "<a data-lightbox='category' href='" . $row['image'] . "' data-caption='" . $row['image'] . "'><img src='" . $row['image'] . "' title='" . $row['image'] . "' height='50' /></a>";
+
+        }else{
+            $tempRow['image'] = 'No Image';
+
+        }
+        $tempRow['date'] = $row['date'];
         $tempRow['operate'] = $operate;
         $rows[] = $tempRow;
         }

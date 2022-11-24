@@ -18,7 +18,6 @@ if (isset($_POST['btnEdit'])) {
 
     $project_id = $db->escapeString(($_POST['project_id']));
     $amount = $db->escapeString($_POST['amount']);
-    $balance = $db->escapeString($_POST['balance']);
     $date = $db->escapeString($_POST['date']);
     $error = array();
 
@@ -29,9 +28,6 @@ if (isset($_POST['btnEdit'])) {
     if (empty($amount)) {
         $error['amount'] = " <span class='label label-danger'>Required!</span>";
     }
-    if (empty($balance)) {
-        $error['balance'] = " <span class='label label-danger'>Required!</span>";
-    }
     if (empty($date)) {
         $error['date'] = " <span class='label label-danger'>Required!</span>";
     }
@@ -40,14 +36,14 @@ if (isset($_POST['btnEdit'])) {
 
 
 
-    if (!empty($project_id) && !empty($amount) && !empty($balance) && !empty($date)) {
+    if (!empty($project_id) && !empty($amount) && !empty($date)) {
         if ($_FILES['image']['size'] != 0 && $_FILES['image']['error'] == 0 && !empty($_FILES['image'])) {
             //image isn't empty and update the image
             $old_image = $db->escapeString($_POST['old_image']);
             $extension = pathinfo($_FILES["image"]["name"])['extension'];
 
             $result = $fn->validate_image($_FILES["image"]);
-            $target_path = 'upload/staffs/';
+            $target_path = 'upload/receipt/';
 
             $filename = microtime(true) . '.' . strtolower($extension);
             $full_path = $target_path . "" . $filename;
@@ -59,12 +55,12 @@ if (isset($_POST['btnEdit'])) {
             if (!empty($old_image)) {
                 unlink($old_image);
             }
-            $upload_image = 'upload/staffs/' . $filename;
+            $upload_image = 'upload/receipt/' . $filename;
             $sql = "UPDATE project_bill SET `image`='" . $upload_image . "' WHERE `id`=" . $ID;
             $db->sql($sql);
         }
 
-        $sql_query = "UPDATE project_bill SET project_id='$project_id',amount='$amount',balance='$balance',date='$date' WHERE id =  $ID";
+        $sql_query = "UPDATE project_bill SET project_id='$project_id',amount='$amount',date='$date' WHERE id =  $ID";
         $db->sql($sql_query);
         $res = $db->getResult();
         $update_result = $db->getResult();
@@ -77,9 +73,9 @@ if (isset($_POST['btnEdit'])) {
         // check update result
         if ($update_result == 1) {
 
-            $error['update_staff'] = " <section class='content-header'><span class='label label-success'>Staff Details updated Successfully</span></section>";
+            $error['update_bill'] = " <section class='content-header'><span class='label label-success'>Project Bill Details updated Successfully</span></section>";
         } else {
-            $error['update_staff'] = " <span class='label label-danger'>Failed to update</span>";
+            $error['update_bill'] = " <span class='label label-danger'>Failed to update</span>";
         }
     }
 }
@@ -94,13 +90,13 @@ $res = $db->getResult();
 
 if (isset($_POST['btnCancel'])) { ?>
     <script>
-        window.location.href = "project_bill.php";
+        window.location.href = "project-bill.php";
     </script>
 <?php } ?>
 <section class="content-header">
     <h1>
-        Edit Project Bill<small><a href='project_bill.php'><i class='fa fa-angle-double-left'></i>&nbsp;&nbsp;&nbsp;Back to Project Bill</a></small></h1>
-    <small><?php echo isset($error['update_staff']) ? $error['update_staff'] : ''; ?></small>
+        Edit Project Bill<small><a href='project-bill.php'><i class='fa fa-angle-double-left'></i>&nbsp;&nbsp;&nbsp;Back to Project Bill</a></small></h1>
+    <small><?php echo isset($error['update_bill']) ? $error['update_bill'] : ''; ?></small>
     <ol class="breadcrumb">
         <li><a href="home.php"><i class="fa fa-home"></i> Home</a></li>
     </ol>
@@ -117,23 +113,32 @@ if (isset($_POST['btnCancel'])) { ?>
                     <h3 class="box-title">Edit Project Bill</h3>
                 </div><!-- /.box-header -->
                 <!-- form start -->
-                <form id="edit_staff_form" method="post" enctype="multipart/form-data">
+                <form id="edit_bill_form" method="post" enctype="multipart/form-data">
                     <div class="box-body">
                         <input type="hidden" id="old_image" name="old_image" value="<?= $res[0]['image']; ?>">
                         <div class="row">
                             <div class="form-group">
+                                <div class="col-md-6">
+                                    <label for="exampleInputEmail1">Date</label> <i class="text-danger asterik">*</i><?php echo isset($error['date']) ? $error['date'] : ''; ?>
+                                    <input type="date" class="form-control" name="date" value="<?php echo $res[0]['date']; ?>">
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="form-group">
                                 <div class='col-md-6'>
-                                    <label for="exampleInputEmail1">Project ID</label> <i class="text-danger asterik">*</i>
+                                    <label for="exampleInputEmail1">Project</label> <i class="text-danger asterik">*</i>
                                     <select id='project_id' name="project_id" class='form-control' required>
                                         <option value="none">Select</option>
                                         <?php
-                                        $sql = "SELECT id,name FROM `project_bill`";
+                                        $sql = "SELECT id,name FROM `projects`";
                                         $db->sql($sql);
 
                                         $result = $db->getResult();
                                         foreach ($result as $value) {
                                         ?>
-                                            <option value='<?= $value['id'] ?>' <?= $value['id'] == $res[0]['name'] ? 'selected="selected"' : ''; ?>><?= $value['name'] ?></option>
+                                            <option value='<?= $value['id'] ?>' <?= $value['id'] == $res[0]['project_id'] ? 'selected="selected"' : ''; ?>><?= $value['name'] ?></option>
 
                                         <?php } ?>
                                     </select>
@@ -149,23 +154,10 @@ if (isset($_POST['btnCancel'])) { ?>
                         <div class="row">
                             <div class="form-group">
                                 <div class="col-md-6">
-                                    <label for="exampleInputEmail1">Balance</label> <i class="text-danger asterik">*</i><?php echo isset($error['balance']) ? $error['balance'] : ''; ?>
-                                    <input type="number" class="form-control" name="balance" value="<?php echo $res[0]['balance']; ?>">
-                                </div>
-
-                                <div class="col-md-4">
                                     <label for="exampleInputFile">Receipt</label>
 
                                     <input type="file" accept="image/png,  image/jpeg" onchange="readURL(this);" name="image" id="image">
                                     <p class="help-block"><img id="blah" src="<?php echo $res[0]['image']; ?>" style="height:120px;max-width:100%" /></p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group">
-                                <div class="col-md-6">
-                                    <label for="exampleInputEmail1">Date</label> <i class="text-danger asterik">*</i><?php echo isset($error['date']) ? $error['date'] : ''; ?>
-                                    <input type="date" class="form-control" name="date" value="<?php echo $res[0]['date']; ?>">
                                 </div>
                             </div>
                         </div>

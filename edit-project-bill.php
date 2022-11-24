@@ -24,7 +24,7 @@
 <?php include "header.php";?>
 <html>
 <head>
-<title>Edit Staff | - Dashboard</title>
+<title>Edit Project Bill | - Dashboard</title>
 </head>
 <body>
       <!-- Content Wrapper. Contains page content -->

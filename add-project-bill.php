@@ -25,7 +25,7 @@
 <?php include "header.php";?>
 <html>
 <head>
-<title>Add Staff | - Dashboard</title>
+<title>Add Project Bill | - Dashboard</title>
 </head>
 </body>
       <!-- Content Wrapper. Contains page content -->
