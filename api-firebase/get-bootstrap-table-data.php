@@ -185,7 +185,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'projects') {
 
     if (isset($_GET['search']) && !empty($_GET['search'])) {
         $search = $db->escapeString($fn->xss_clean($_GET['search']));
-        $where .= "WHERE name like '%" . $search . "%' OR client_name like '%" . $search . "%' OR description like '%" . $search . "%'";
+        $where .= "AND name like '%" . $search . "%' OR client_name like '%" . $search . "%' OR description like '%" . $search . "%'";
     }
     if (isset($_GET['sort'])){
         $sort = $db->escapeString($_GET['sort']);
@@ -194,14 +194,15 @@ if (isset($_GET['table']) && $_GET['table'] == 'projects') {
     if (isset($_GET['order'])){
         $order = $db->escapeString($_GET['order']);
 
-    }        
-    $sql = "SELECT COUNT(`id`) as total FROM `projects`" . $where;
+    }
+    $join = "WHERE projects.client_id=clients.id";        
+    $sql = "SELECT COUNT(*) as total FROM `projects`,`clients`" . $join;
     $db->sql($sql);
     $res = $db->getResult();
     foreach ($res as $row)
         $total = $row['total'];
 
-    $sql = "SELECT *,clients.name AS client_name,projects.name AS name,projects.price - project_bill.amount AS balance FROM projects,clients,`project_bill` WHERE projects.client_id=clients.id AND project_bill.project_id=projects.id";
+    $sql = "SELECT *,clients.name AS client_name,projects.name AS name FROM projects,clients $join ";
     $db->sql($sql);
     $res = $db->getResult();
 
@@ -213,12 +214,17 @@ if (isset($_GET['table']) && $_GET['table'] == 'projects') {
     foreach ($res as $row) {
 
         $operate = ' <a href="edit-project.php?id=' . $row['id'] . '"><i class="fa fa-edit"></i>Edit</a>';
+        $id = $row['id'];
         $tempRow['id'] = $row['id'];
         $tempRow['name'] = $row['name'];
         $tempRow['client_name'] = $row['client_name'];
         $tempRow['description'] = $row['description'];
         $tempRow['price'] = $row['price'];
-        $tempRow['balance'] = $row['balance'];
+        $price = $row['price'];
+        $sql = "SELECT SUM(amount) - $price AS balance FROM project_bill WHERE project_id = $id";
+        $db->sql($sql);
+        $res = $db->getResult();
+        $tempRow['balance'] = (isset($res[0]['balance'])) ? $res[0]['balance'] : "0";
         $tempRow['operate'] = $operate;
         $rows[] = $tempRow;
         }
