@@ -19,7 +19,7 @@ if (empty($_POST['staff_id'])) {
     return false;
 }
 $staff_id = $db->escapeString($_POST['staff_id']);
-$sql = "SELECT *,timesheets.id AS id FROM timesheets,projects WHERE timesheets.project_id = projects.id AND timesheets.staff_id = $staff_id ORDER BY date LIMIT 20";
+$sql = "SELECT *,timesheets.id AS id FROM timesheets,projects WHERE timesheets.project_id = projects.id AND timesheets.staff_id = $staff_id ORDER BY timesheets.id DESC LIMIT 20";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
