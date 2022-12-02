@@ -217,7 +217,12 @@ $fn = new custom_functions;
                         <span>Project Bill</span>
                     </a>
                 </li>
-                
+                <li class="treeview">
+                    <a href="ajax-form.php">
+                        <i class="fa fa-bullseye"></i>
+                        <span>Ajax Form</span>
+                    </a>
+                </li>
               
               
             </ul>

@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  	<title>PHP & MySQL AJAX example Using jQuery</title>
+
+  	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  	
+  	<!-- Page CSS -->
+  	<link rel="stylesheet" href="assets/css/styles.css">
+</head>
+  
+<body>
+   
+	<div class="container">
+		<br><br>
+	    <br><br>
+	    <div class="row">
+	    	<div class="col-md-4">
+	    		<h3>Add New Staff</h3>
+
+			    <form action="save.php" id="form">
+			    	<div class="form-group">
+					    <label for="email">Name</label>
+					    <input class="form-control" type="text" name="name">
+				  	</div>
+				  	<div class="form-group">
+					    <label for="first_name">Role</label>
+					    <input class="form-control" type="text" name="role">
+				  	</div>
+				  	<div class="form-group">
+					    <label for="last_name">Email</label>
+					    <input class="form-control" type="text" name="email">
+				  	</div>
+				  	<div class="form-group">
+					    <label for="address">Mobile</label>
+					    <input class="form-control" type="text" name="mobile" rows="3"></textarea>
+				  	</div>
+					  <div class="form-group">
+					    <label for="address">Password</label>
+					    <input class="form-control" type="text" name="password" rows="3"></textarea>
+				  	</div>
+					  <div class="form-group">
+					    <label for="address">Image</label>
+					    <input class="form-control" type="text" name="image" rows="3"></textarea>
+				  	</div>
+					  <div class="form-group">
+					    <label for="address">Github</label>
+					    <input class="form-control" type="text" name="github" rows="3"></textarea>
+				  	</div>
+					  <div class="form-group">
+					    <label for="address">UPI</label>
+					    <input class="form-control" type="text" name="upi" rows="3"></textarea>
+				  	</div>
+				  	<button type="button" class="btn btn-primary" id="btnSubmit">Submit</button>
+				</form>
+	    	</div>
+
+	    	<!-- <div class="col-md-8">
+	    		<h3>List of Employees</h3>
+	    		<div id="employees-list"></div>
+	    	</div> -->
+	    </div>
+	</div>
+
+	<!-- Must put our javascript files here to fast the page loading -->
+	
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<!-- Popper JS -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<!-- Bootstrap JS -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<!-- Page Script -->
+	<script src="assets/js/scripts.js"></script>
+
+</body>
+  
+</html>
