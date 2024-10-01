@@ -12,12 +12,6 @@ include_once('../includes/crud.php');
 $db = new Database();
 $db->connect();
 
-if (empty($_POST['project_id'])) {
-    $response['success'] = false;
-    $response['message'] = "Project Id is Empty";
-    print_r(json_encode($response));
-    return false;
-}
 if (empty($_POST['staff_id'])) {
     $response['success'] = false;
     $response['message'] = "Staff Id is Empty";
@@ -43,13 +37,12 @@ if (empty($_POST['description'])) {
     return false;
 }
 
-$project_id = $db->escapeString($_POST['project_id']);
 $hours = $db->escapeString($_POST['hours']);
 $date = $db->escapeString($_POST['date']);
 $description = $db->escapeString($_POST['description']);
 $staff_id = $db->escapeString($_POST['staff_id']);
 
-$sql = "INSERT INTO timesheets (`project_id`,`staff_id`,`date`,`hours`,`description`)VALUES('$project_id','$staff_id','$date','$hours','$description')";
+$sql = "INSERT INTO timesheets (`staff_id`,`date`,`hours`,`description`)VALUES('$staff_id','$date','$hours','$description')";
 $db->sql($sql);
 $res = $db->getResult();
 $response['success'] = true;
